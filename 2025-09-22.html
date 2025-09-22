@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNN 10 Interactive Guide (September 22, 2025)</title>
+    <title>CNN 10 Interactive Analysis | September 22, 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,414 +12,188 @@
     <style>
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background-color: #F8F9FA;
+            color: #4A4A4A;
+            background-color: #F8F5F2;
         }
-        .section-container {
-            background-color: white;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease-in-out;
+        h1, h2, h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
         }
-        .section-container:hover {
-            transform: translateY(-5px);
+        .container {
+            max-width: 800px;
         }
-        .flip-card {
-            background-color: transparent;
-            width: 100%;
-            height: 100%;
-            perspective: 1000px;
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 0.75rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            background-color: white;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-sizing: border-box; /* 確保 padding 不會影響寬高 */
-            min-height: 100%; /* 確保內容不會被擠壓 */
-        }
-        .flip-card-back {
-            transform: rotateY(180deg);
-            background-color: #fef3c7;
-            /* New styles to fix overlapping text */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .tooltip-container {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            border-bottom: 2px dotted #f59e0b;
-        }
-        .tooltip-text {
-            visibility: hidden;
-            width: 250px;
-            background-color: #f59e0b;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 10;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -125px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tooltip-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #f59e0b transparent transparent transparent;
-        }
-        .tooltip-container:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-        }
-        .video-container iframe {
-            position: absolute;
+        .sticky-nav {
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            z-index: 50;
+        }
+        .nav-link.active {
+            color: #A36A45;
+            border-bottom: 2px solid #A36A45;
         }
     </style>
 </head>
-<body class="text-stone-800 bg-stone-50 flex flex-col min-h-screen">
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#video-section" class="text-xl md:text-2xl font-bold text-stone-900 hover:text-amber-600 transition-colors">CNN 10 Overview</a>
-            <div class="space-x-4">
-                <a href="#video-section" class="text-stone-700 hover:text-amber-600 transition-colors hidden md:inline-block">Today's Video</a>
-                <a href="#key-topics" class="text-stone-700 hover:text-amber-600 transition-colors">Key Topics</a>
-                <a href="#vocabulary" class="text-stone-700 hover:text-amber-600 transition-colors">Vocabulary Builder</a>
-                <a href="#phrase-analysis" class="text-stone-700 hover:text-amber-600 transition-colors">Sentence Breakdown</a>
-                <a href="#extended-reading" class="text-stone-700 hover:text-amber-600 transition-colors">Explore More</a>
-            </div>
-        </nav>
-    </header>
+<body class="bg-gray-100">
 
-    <main class="container mx-auto px-6 py-8 md:py-12 flex-grow space-y-12">
-        <section id="video-section" class="section-container">
-            <h1 class="text-3xl md:text-4xl font-bold text-center text-stone-900 mb-2">Today's Video</h1>
-            <p class="text-lg text-center text-stone-600 mb-8">September 22, 2025</p>
-            <div class="max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg">
-                <div class="video-container">
-                    <iframe id="video" src="https://www.youtube.com/embed/gPnrSloKpAo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <nav class="sticky-nav bg-white shadow-sm py-4 mb-8">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-2xl font-bold text-gray-800">CNN 10</a>
+                <span class="text-gray-500 hidden sm:block">|</span>
+                <span class="text-gray-500 hidden sm:block">September 22, 2025</span>
+            </div>
+            <div class="flex space-x-6 text-sm font-medium">
+                <a href="#topics" class="nav-link text-gray-600 hover:text-gray-800 transition-colors duration-200">新聞要點</a>
+                <a href="#vocabulary" class="nav-link text-gray-600 hover:text-gray-800 transition-colors duration-200">單字詞彙</a>
+                <a href="#sentences" class="nav-link text-gray-600 hover:text-gray-800 transition-colors duration-200">句子解析</a>
+                <a href="#explore" class="nav-link text-gray-600 hover:text-gray-800 transition-colors duration-200">深入探索</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4">
+
+        <section id="hero" class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">CNN 10 Overview | September 22, 2025</h1>
+            <p class="text-gray-500 mb-4">主講人：Coy Wire</p>
+            <div class="relative aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/gPnrSloKpAo" title="Inside the WNBA's historic push for fair pay | September 22, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="topics" class="mb-12 py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">新聞要點</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-2xl">🌍</span>
+                        <h3 class="text-xl font-semibold text-gray-800">北約與俄羅斯關係緊張</h3>
+                    </div>
+                    <p class="text-gray-600">由於俄羅斯多次侵犯聯盟領空，北約國家正加強其軍事力量。英國戰鬥機在波蘭上空巡邏，以應對俄羅斯無人機入侵，而愛沙尼亞也報告了俄羅斯戰機的「前所未有的無恥」侵犯行為。立陶宛則正在訓練兒童如何操作無人機，以加強國防。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-2xl">🏀</span>
+                        <h3 class="text-xl font-semibold text-gray-800">WNBA球員爭取公平薪酬</h3>
+                    </div>
+                    <p class="text-gray-600">WNBA正經歷創紀錄的成長，球隊價值和觀眾人數飆升，並簽署了價值22億美元的電視轉播權合約。然而，球員們表示她們獲得的聯盟總收入分成低於10%，遠少於其他職業體育聯盟球員通常獲得的約50%。因此，球員們正推動一項歷史性的協議，要求獲得更公平的薪酬。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-2xl">👓</span>
+                        <h3 class="text-xl font-semibold text-gray-800">Meta全新智慧眼鏡</h3>
+                    </div>
+                    <p class="text-gray-600">Meta與Ray-Ban合作推出了一款名為「Display」的新型智慧眼鏡，讓使用者透過內建顯示器與AI進行互動，無需使用智慧型手機。這款眼鏡具備神經腕帶（neural wristband），能讓使用者用手勢進行導航，並支援語音控制、即時翻譯、訊息傳送等功能。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="text-2xl">🐢</span>
+                        <h3 class="text-xl font-semibold text-gray-800">發現稀有海龜化石</h3>
+                    </div>
+                    <p class="text-gray-600">在一次家庭尋找化石之旅中，一名13歲的男孩在阿拉巴馬州的一條河流旁發現了距今3200萬年的一種全新物種和屬別的完整海龜化石。這個重達一噸的化石被科學家稱為「百萬分之一」的發現，並由當地的印第安部落成員以他們的母語命名為「Ueloca colemanorum」。</p>
                 </div>
             </div>
         </section>
 
-        <section id="introduction" class="section-container">
-            <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-4">Video Summary</h2>
-            <p class="text-stone-700 leading-relaxed">
-                This episode of CNN 10 focuses on the new school year, exploring new trends and challenges in education. The video also covers the latest international news, delves into recent breakthroughs in space exploration, and concludes with a heartwarming human-interest story. This guide will help you understand the key points of the episode and provide practical vocabulary and phrase analysis to enhance your listening and reading skills.
-            </p>
-        </section>
-
-        <section id="key-topics" class="section-container">
-            <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Key Topics</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
-                    <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M6 21h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zm12 0L12 3m0 18v-4a2 2 0 012-2h2a2 2 0 012 2v4M6 21L12 3"></path></svg>
-                    <p class="font-bold text-lg text-stone-800 mb-2">Back to School</p>
-                    <p class="text-sm text-stone-700">A deep dive into the new school year and the impact of artificial intelligence on student learning.</p>
-                    <p class="font-bold text-xs text-amber-600 mt-auto">0:11-1:45</p>
+        <section id="vocabulary" class="mb-12 py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">單字詞彙</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">provocation</h3>
+                    <p class="text-gray-600 mb-2"><strong>中譯：</strong>挑釁、激怒</p>
+                    <p class="text-gray-600 mb-2"><strong>釋義：</strong>一種旨在激怒某人的行動或言論。</p>
+                    <p class="text-gray-600 italic"><strong>例句：</strong>"NATO is bolstering its military presence to deter further <strong>provocations</strong> from Russia."</p>
                 </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
-                    <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h4a2 2 0 002-2v-1a2 2 0 012-2h2.945M19 8a2 2 0 110 4M3 8a2 2 0 110 4m6-6a2 2 0 110 4m-4-4a2 2 0 110 4m8-4a2 2 0 110 4"></path></svg>
-                    <p class="font-bold text-lg text-stone-800 mb-2">International Summit</p>
-                    <p class="text-sm text-stone-700">A global news report on an important international political summit and its impact on global relations.</p>
-                    <p class="font-bold text-xs text-amber-600 mt-auto">1:47-4:02</p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">disparity</h3>
+                    <p class="text-gray-600 mb-2"><strong>中譯：</strong>差異、懸殊</p>
+                    <p class="text-gray-600 mb-2"><strong>釋義：</strong>特別是當兩件事物應該相似時，它們之間存在著顯著的差異或不平等。</p>
+                    <p class="text-gray-600 italic"><strong>例句：</strong>"The players are campaigning against the stark <strong>disparity</strong> between franchise profit and player pay."</p>
                 </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
-                    <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                    <p class="font-bold text-lg text-stone-800 mb-2">Space Exploration</p>
-                    <p class="text-sm text-stone-700">The latest advances in space exploration, including discoveries from a new space telescope and a new Mars rover.</p>
-                    <p class="font-bold text-xs text-amber-600 mt-auto">4:05-6:55</p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">unprecedentedly</h3>
+                    <p class="text-gray-600 mb-2"><strong>中譯：</strong>史無前例地</p>
+                    <p class="text-gray-600 mb-2"><strong>釋義：</strong>以前從未發生或經歷過，達到了一個全新的水平。</p>
+                    <p class="text-gray-600 italic"><strong>例句：</strong>"Estonia has called the Russian incursion into its airspace <strong>unprecedentedly</strong> brazen."</p>
                 </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
-                    <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    <p class="font-bold text-lg text-stone-800 mb-2">Human-Interest Story</p>
-                    <p class="text-sm text-stone-700">A heartwarming story that wraps up the episode, about a retired teacher whose passion for community continues to inspire others.</p>
-                    <p class="font-bold text-xs text-amber-600 mt-auto">7:00-9:30</p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">intact</h3>
+                    <p class="text-gray-600 mb-2"><strong>中譯：</strong>完好無損的</p>
+                    <p class="text-gray-600 mb-2"><strong>釋義：</strong>未受損害或保持完整，特別是當周圍事物已經改變時。</p>
+                    <p class="text-gray-600 italic"><strong>例句：</strong>"Scientists have discovered an incredibly rare <strong>intact</strong> fossil of a new species."</p>
                 </div>
             </div>
         </section>
         
-        <section id="data-visualization" class="section-container">
-            <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Data Visualization: EdTech Adoption Rates</h2>
-            <p class="text-stone-700 mb-4">
-                This chart shows the adoption rates of several key educational technology tools among U.S. high school students in recent years.
-            </p>
-            <div class="flex flex-col md:flex-row items-center md:items-start justify-center gap-8">
-                <div class="w-full md:w-1/2 flex-shrink-0">
-                     <div class="h-64 md:h-80 mx-auto">
-                        <canvas id="techAdoptionChart"></canvas>
-                    </div>
+        <section id="sentences" class="mb-12 py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">句子解析</h2>
+            <div class="space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 mb-4">
+                        "...NATO’s Operation Eastern Sentry which is <strong>bolstering the alliance’s military presence</strong> along its eastern flank with Russia to deter further provocations."
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li><strong>bolstering the alliance’s military presence</strong> (加強聯盟的軍事存在): "Bolster"的意思是「加強」或「鞏固」。這句話指的是北約正在增加其在東部邊境的軍隊、武器和設備，以增強其防禦能力。</li>
+                    </ul>
                 </div>
-                <div class="w-full md:w-1/2 text-left space-y-4">
-                    <p class="text-stone-700">
-                        The chart shows that **cloud collaboration tools** (like Google Docs) have the highest adoption rate, at 95%.
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 mb-4">
+                        "...players say their share of revenue falls short of other pro sports our Boris Sanchez takes a closer look at <strong>their shot for fair pay</strong>."
                     </p>
-                    <p class="text-stone-700">
-                        **AI writing assistants** (like Grammarly) show rapid growth, reaching 70%, indicating that students are actively utilizing new technologies.
-                    </p>
-                    <p class="text-stone-700">
-                        **Virtual Reality (VR) applications**, while still in their early stages, have an adoption rate of 25%, showing great potential for the future of education.
-                    </p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li><strong>their shot for fair pay</strong> (她們爭取公平薪酬的機會): "Shot"在這裡的意思是「機會」或「嘗試」。這句話指的是WNBA球員正在努力爭取與她們在聯盟中創造的收入相符的公平薪水。</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="vocabulary" class="section-container">
-            <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">Vocabulary Builder</h2>
-            <p class="text-stone-600 mb-6">Enrich your vocabulary with key terms from the video. Click on each card to see the Chinese translation and an example sentence. This interactive approach helps reinforce your learning.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-                <div class="flip-card cursor-pointer">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <p class="text-xl font-bold text-stone-800">commute</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <p class="text-lg font-bold text-stone-900 mb-2">通勤</p>
-                            <p class="text-sm text-stone-700 italic text-center">"Many people have a long commute to work."</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card cursor-pointer">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <p class="text-xl font-bold text-stone-800">geopolitical</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <p class="text-lg font-bold text-stone-900 mb-2">地緣政治的</p>
-                            <p class="text-sm text-stone-700 italic text-center">"The summit focused on major geopolitical issues."</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card cursor-pointer">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <p class="text-xl font-bold text-stone-800">monumental undertaking</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <p class="text-lg font-bold text-stone-900 mb-2">一項艱鉅的任務</p>
-                            <p class="text-sm text-stone-700 italic text-center">"Building the new space station was a monumental undertaking."</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card cursor-pointer">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <p class="text-xl font-bold text-stone-800">to make strides</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <p class="text-lg font-bold text-stone-900 mb-2">取得進展</p>
-                            <p class="text-sm text-stone-700 italic text-center">"The company is making great strides in renewable energy."</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card cursor-pointer">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <p class="text-xl font-bold text-stone-800">on the horizon</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <p class="text-lg font-bold text-stone-900 mb-2">即將發生</p>
-                            <p class="text-sm text-stone-700 italic text-center">"A new technology is on the horizon that could change everything."</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-card cursor-pointer">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <p class="text-xl font-bold text-stone-800">to wrap up</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <p class="text-lg font-bold text-stone-900 mb-2">做結尾</p>
-                            <p class="text-sm text-stone-700 italic text-center">"Let's wrap up this meeting with a quick summary."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="phrase-analysis" class="section-container">
-            <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Sentence Breakdown</h2>
-            <div class="space-y-6 text-lg leading-relaxed">
-                <p>
-                    "And for many students, their first day back will feel quite different as schools continue to <span class="tooltip-container">grapple with integrating new technologies<span class="tooltip-text">To struggle or deal with something difficult or challenging. (與整合新科技搏鬥)</span></span>, including artificial intelligence, into their curriculums."
-                </p>
-                <p>
-                    "This <span class="tooltip-container">groundbreaking astronomical endeavor<span class="tooltip-text">A new and highly significant project related to the study of stars and space. (一項開創性的天文探索)</span></span> promises to unlock secrets of the universe that were previously thought to be impossible to discover."
-                </p>
-                <p>
-                    "We're going to <span class="tooltip-container">wrap up with a heartwarming story<span class="tooltip-text">To finish a report or discussion by telling a pleasant story. (用一個溫馨的故事做結尾)</span></span> of a retired teacher whose passion for community gardening continues to grow and inspire."
-                </p>
-            </div>
-        </section>
-
-        <section id="extended-reading" class="section-container">
-            <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">Explore More</h2>
-            <p class="text-sm text-stone-600 mb-6">
-                Ready to dive deeper? These curated links provide more information on the topics discussed in the video. Expand your knowledge and practice your reading skills with these external resources.
-            </p>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
-                    <h3 class="font-bold text-xl text-stone-800 mb-4">Back to School</h3>
-                    <div class="space-y-4">
-                        <a href="https://www.cnn.com/2023/08/23/world/ai-in-education-back-to-school-scn-intl/index.html" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">How AI is Changing the Classroom for Students and Teachers</p>
-                            <p class="text-sm text-stone-500">CNN</p>
-                        </a>
-                        <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">The Rise of EdTech in the Post-Pandemic Era</p>
-                            <p class="text-sm text-stone-500">EdSurge</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
-                    <h3 class="font-bold text-xl text-stone-800 mb-4">International Summit</h3>
-                    <div class="space-y-4">
-                        <a href="https://www.cnbc.com/2023/09/21/geopolitical-risk-and-its-impact-on-the-global-economy.html" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">Geopolitical Risks to Watch in the Year Ahead</p>
-                            <p class="text-sm text-stone-500">CNBC</p>
-                        </a>
-                        <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">Guide to the UN General Assembly</p>
-                            <p class="text-sm text-stone-500">Council on Foreign Relations</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
-                    <h3 class="font-bold text-xl text-stone-800 mb-4">Space Exploration</h3>
-                    <div class="space-y-4">
-                        <a href="https://www.nasa.gov/news/" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">Latest Space Discoveries and Missions from NASA</p>
-                            <p class="text-sm text-stone-500">NASA</p>
-                        </a>
-                        <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">Discoveries of the James Webb Space Telescope</p>
-                            <p class="text-sm text-stone-500">Wikipedia</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
-                    <h3 class="font-bold text-xl text-stone-800 mb-4">Human-Interest Story</h3>
-                    <div class="space-y-4">
-                        <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">The Power and Benefits of Community Gardening</p>
-                            <p class="text-sm text-stone-500">American Community Gardening Association</p>
-                        </a>
-                        <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors" target="_blank" rel="noopener noreferrer">
-                            <p class="font-medium text-stone-900">Acts of Kindness in the Community: Stories of Giving Back</p>
-                            <p class="text-sm text-stone-500">The Good News Network</p>
-                        </a>
-                    </div>
-                </div>
+        <section id="explore" class="mb-12 py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">深入探索</h2>
+            <p class="text-gray-600 mb-4">以下是一些外部連結，可幫助你更深入地了解今天的新聞故事。</p>
+            <div class="space-y-4">
+                <a href="https://www.theguardian.com/world/2025/sep/19/estonia-accuses-russia-of-brazen-violation-of-its-airspace" target="_blank" class="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-blue-700">北約攔截俄羅斯戰機「魯莽」侵犯愛沙尼亞領空</h3>
+                    <p class="text-gray-500 text-sm">（來源：The Guardian）</p>
+                </a>
+                <a href="https://peoplesworld.org/article/low-pay-top-issue-in-stalled-talks-between-wnba-and-players-union/" target="_blank" class="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-blue-700">WNBA與球員工會談判停滯，薪酬低是主要問題</h3>
+                    <p class="text-gray-500 text-sm">（來源：People's World）</p>
+                </a>
+                <a href="https://www.meta.com/tw/ai-glasses/meta-ray-ban-display/" target="_blank" class="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-blue-700">全新Meta Ray-Ban Display AI 眼鏡和Neural Band</h3>
+                    <p class="text-gray-500 text-sm">（來源：Meta）</p>
+                </a>
+                <a href="https://pci-nsn.gov/fossil-discovery/" target="_blank" class="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-blue-700">家庭釣魚之旅促成「百萬分之一」的化石發現</h3>
+                    <p class="text-gray-500 text-sm">（來源：Poarch Creek Indians）</p>
+                </a>
             </div>
         </section>
 
     </main>
-
-    <footer class="bg-white shadow-inner mt-12 py-6 text-center text-stone-500 text-sm">
-        <p>CNN 10 Interactive Guide © 2025</p>
+    
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <div class="container mx-auto">
+            <p>&copy; 2025 CNN 10 Interactive Analysis. All rights reserved.</p>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const ctx = document.getElementById('techAdoptionChart').getContext('2d');
-            const data = {
-                labels: ['Cloud Collaboration Tools', 'AI Writing Assistants', 'Virtual Reality (VR)'],
-                datasets: [{
-                    label: 'High School Student Adoption Rate (%)',
-                    data: [95, 70, 25],
-                    backgroundColor: ['#f59e0b', '#fbbf24', '#fcd34d'],
-                    borderColor: ['#d97706', '#d97706', '#d97706'],
-                    borderWidth: 1
-                }]
-            };
-            const options = {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed.y !== null) {
-                                    label += context.parsed.y + '%';
-                                }
-                                return label;
-                            }
-                        }
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
                     }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
                     }
-                }
-            };
-            new Chart(ctx, {
-                type: 'bar',
-                data: data,
-                options: options
-            });
-
-            // Flip card functionality
-            const flipCards = document.querySelectorAll('.flip-card');
-            flipCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    card.classList.toggle('flipped');
                 });
             });
         });
