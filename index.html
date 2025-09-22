@@ -104,13 +104,13 @@
             const todayReportData = recentReportsData[0];
             todayTopic.textContent = todayReportData.topic;
             todayReport.addEventListener('click', () => {
-                window.location.href = `report.html?date=${todayReportData.linkDate}`;
+                window.location.href = `${todayReportData.linkDate}.html`;
             });
 
             recentReportsData.forEach(item => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <a href="report.html?date=${item.linkDate}" class="block bg-stone-50 hover:bg-amber-100 text-stone-700 p-3 rounded-lg transition-colors text-left">
+                    <a href="${item.linkDate}.html" class="block bg-stone-50 hover:bg-amber-100 text-stone-700 p-3 rounded-lg transition-colors text-left">
                         <span class="font-bold">${item.date}</span> – ${item.topic}
                     </a>
                 `;
@@ -126,7 +126,7 @@
             viewBtn.addEventListener('click', () => {
                 const selectedDate = dateInput.value;
                 if (selectedDate) {
-                    window.location.href = `report.html?date=${selectedDate}`;
+                    window.location.href = `${selectedDate}.html`;
                 } else {
                     alert('請選擇一個有效的日期。');
                 }
