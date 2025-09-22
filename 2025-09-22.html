@@ -93,6 +93,37 @@
                 height: 400px;
             }
         }
+        /* New CSS for vocabulary cards */
+        .vocab-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px; /* Minimum height for better spacing */
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .vocab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+        /* Video Aspect Ratio fix */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="text-stone-800 bg-stone-50 flex flex-col min-h-screen">
@@ -112,8 +143,10 @@
         <section id="video-section" class="mb-12">
             <h1 class="text-3xl md:text-4xl font-bold text-center text-stone-900 mb-2">CNN 10 Overview</h1>
             <p class="text-lg text-center text-stone-600 mb-8">September 22, 2025</p>
-            <div class="aspect-w-16 aspect-h-9 max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg">
-                <iframe id="video" class="w-full h-full" src="https://www.youtube.com/embed/gPnrSloKpAo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg">
+                <div class="video-container">
+                    <iframe id="video" src="https://www.youtube.com/embed/gPnrSloKpAo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
             </div>
         </section>
 
@@ -191,67 +224,26 @@
 
         <section id="vocabulary" class="mb-12">
             <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
-                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Vocabulary Builder</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">Vocabulary Builder</h2>
+                <p class="text-stone-600 mb-6">Enhance your vocabulary with these key terms from the video. Click on each card to reveal the Chinese translation and a sample sentence. This interactive method helps reinforce your learning.</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="flip-card h-48">
-                        <div class="flip-card-inner shadow-md">
-                            <div class="flip-card-front bg-amber-500 text-white">
-                                <p class="text-2xl font-bold">commute</p>
-                            </div>
-                            <div class="flip-card-back bg-amber-100 text-stone-800">
-                                <p class="text-sm">（動詞）通勤</p>
-                            </div>
-                        </div>
+                    <div class="vocab-card">
+                        <p class="text-xl font-bold text-stone-800">commute</p>
                     </div>
-                    <div class="flip-card h-48">
-                        <div class="flip-card-inner shadow-md">
-                            <div class="flip-card-front bg-amber-500 text-white">
-                                <p class="text-2xl font-bold">geopolitical</p>
-                            </div>
-                            <div class="flip-card-back bg-amber-100 text-stone-800">
-                                <p class="text-sm">（形容詞）地緣政治的</p>
-                            </div>
-                        </div>
+                    <div class="vocab-card">
+                        <p class="text-xl font-bold text-stone-800">geopolitical</p>
                     </div>
-                    <div class="flip-card h-48">
-                        <div class="flip-card-inner shadow-md">
-                            <div class="flip-card-front bg-amber-500 text-white">
-                                <p class="text-2xl font-bold">monumental undertaking</p>
-                            </div>
-                            <div class="flip-card-back bg-amber-100 text-stone-800">
-                                <p class="text-sm">一項巨大的工程或任務</p>
-                            </div>
-                        </div>
+                    <div class="vocab-card">
+                        <p class="text-xl font-bold text-stone-800">monumental undertaking</p>
                     </div>
-                    <div class="flip-card h-48">
-                        <div class="flip-card-inner shadow-md">
-                            <div class="flip-card-front bg-amber-500 text-white">
-                                <p class="text-2xl font-bold">to make strides</p>
-                            </div>
-                            <div class="flip-card-back bg-amber-100 text-stone-800">
-                                <p class="text-sm">取得進展</p>
-                            </div>
-                        </div>
+                    <div class="vocab-card">
+                        <p class="text-xl font-bold text-stone-800">to make strides</p>
                     </div>
-                    <div class="flip-card h-48">
-                        <div class="flip-card-inner shadow-md">
-                            <div class="flip-card-front bg-amber-500 text-white">
-                                <p class="text-2xl font-bold">on the horizon</p>
-                            </div>
-                            <div class="flip-card-back bg-amber-100 text-stone-800">
-                                <p class="text-sm">即將發生；在眼前</p>
-                            </div>
-                        </div>
+                    <div class="vocab-card">
+                        <p class="text-xl font-bold text-stone-800">on the horizon</p>
                     </div>
-                    <div class="flip-card h-48">
-                        <div class="flip-card-inner shadow-md">
-                            <div class="flip-card-front bg-amber-500 text-white">
-                                <p class="text-2xl font-bold">to wrap up</p>
-                            </div>
-                            <div class="flip-card-back bg-amber-100 text-stone-800">
-                                <p class="text-sm">結束；完成</p>
-                            </div>
-                        </div>
+                    <div class="vocab-card">
+                        <p class="text-xl font-bold text-stone-800">to wrap up</p>
                     </div>
                 </div>
             </div>
