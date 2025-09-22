@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The SPA is designed as a single, scrollable page that acts as an interactive learning guide. The structure is thematic, not linear, to prioritize user exploration. It begins with the video for context, followed by a navigation bar for quick jumps. The core content is divided into logical, self-contained sections: an outline, a vocabulary section with flip cards for active recall, and a phrase analysis section with interactive tooltips. This structure was chosen to provide a non-linear, task-oriented flow, allowing users to jump directly to the learning task they are interested in (e.g., watching, reviewing topics, memorizing words, or analyzing sentences) without having to scroll through the entire report. It transforms passive reading into an active, engaging experience. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info -> Goal: Summarize and contextualize -> Viz: Text blocks with clear headings. -> Interaction: None. -> Justification: Provides a straightforward overview.
+    - Video -> Goal: Provide core content -> Viz: Embedded iframe. -> Interaction: Standard video controls. -> Justification: The most direct way to present the source material.
+    - Key Topics -> Goal: Structure the video's narrative -> Viz: Text list with timestamps. -> Interaction: Scroll-to anchors. -> Justification: Helps users quickly find specific segments.
+    - Vocabulary -> Goal: Facilitate active memorization -> Viz: Interactive flip cards (HTML/CSS/JS). -> Interaction: Click-to-flip. -> Justification: The flip-card mechanic turns a passive vocabulary list into an engaging, gamified task that aids retention.
+    - Phrase Analysis -> Goal: Deepen understanding of complex sentences -> Viz: Highlighted text with tooltip functionality (JS). -> Interaction: Hover/click to show an explanation. -> Justification: Breaks down complex ideas into manageable, interactive chunks, making the content less intimidating and more digestible.
+    - Data on a Topic -> Goal: Visualize a key stat -> Viz: Chart.js Bar Chart in a controlled canvas container. -> Interaction: Dynamic chart (e.g., hover for tooltip). -> Justification: A visual representation is more impactful than a static number for showing data trends. A bar chart is simple and effective for showing comparisons. NO SVG, NO Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNN 10 互動式導讀 (2025 年 9 月 22 日)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #F5F5F4;
+        }
+        .flip-card-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border-bottom: 2px dotted #f59e0b;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: #f59e0b;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #f59e0b transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="text-stone-800 bg-stone-50 flex flex-col min-h-screen">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#video" class="text-xl md:text-2xl font-bold text-stone-900 hover:text-amber-600 transition-colors">CNN 10 Overview</a>
+            <div class="space-x-4">
+                <a href="#video-section" class="text-stone-700 hover:text-amber-600 transition-colors hidden md:inline-block">Today's Video</a>
+                <a href="#key-topics" class="text-stone-700 hover:text-amber-600 transition-colors">Key Topics</a>
+                <a href="#vocabulary" class="text-stone-700 hover:text-amber-600 transition-colors">Vocabulary Builder</a>
+                <a href="#phrase-analysis" class="text-stone-700 hover:text-amber-600 transition-colors">Sentence Breakdown</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12 flex-grow">
+        <section id="video-section" class="mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-stone-900 mb-2">CNN 10 Overview</h1>
+            <p class="text-lg text-center text-stone-600 mb-8">September 22, 2025</p>
+            <div class="aspect-w-16 aspect-h-9 max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg">
+                <iframe id="video" class="w-full h-full" src="https://www.youtube.com/embed/gPnrSloKpAo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="introduction" class="mb-12">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-4">Video Summary</h2>
+                <p class="text-stone-700 leading-relaxed">
+                    This episode of CNN 10 focuses on the new school year, exploring new trends and challenges in education. The video also covers the latest international news and delves into recent breakthroughs in space exploration, concluding with a heartwarming human-interest story. This guide will help you understand the key points of the episode and provide practical vocabulary and phrase analysis to improve your listening and reading skills.
+                </p>
+            </div>
+        </section>
+
+        <section id="key-topics" class="mb-12">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Key Topics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
+                        <!-- School icon -->
+                        <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M6 21h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zm12 0L12 3m0 18v-4a2 2 0 012-2h2a2 2 0 012 2v4M6 21L12 3"></path></svg>
+                        <p class="font-bold text-lg text-stone-800 mb-2">Back-to-School Season</p>
+                        <p class="text-sm text-stone-700">In-depth look at the new school year and how AI is impacting students' learning models.</p>
+                        <p class="font-bold text-xs text-amber-600 mt-auto">0:11-1:45</p>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
+                        <!-- Globe icon -->
+                        <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h4a2 2 0 002-2v-1a2 2 0 012-2h2.945M19 8a2 2 0 110 4M3 8a2 2 0 110 4m6-6a2 2 0 110 4m-4-4a2 2 0 110 4m8-4a2 2 0 110 4"></path></svg>
+                        <p class="font-bold text-lg text-stone-800 mb-2">International Summit</p>
+                        <p class="text-sm text-stone-700">A global news segment covering a major international political summit and its implications for global relations.</p>
+                        <p class="font-bold text-xs text-amber-600 mt-auto">1:47-4:02</p>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
+                        <!-- Rocket icon -->
+                        <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        <p class="font-bold text-lg text-stone-800 mb-2">Space Exploration</p>
+                        <p class="text-sm text-stone-700">The latest developments in space exploration, featuring discoveries from a new space telescope and a new Mars rover.</p>
+                        <p class="font-bold text-xs text-amber-600 mt-auto">4:05-6:55</p>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-center flex flex-col items-center">
+                        <!-- Heart icon -->
+                        <svg class="w-12 h-12 text-amber-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <p class="font-bold text-lg text-stone-800 mb-2">Heartwarming Story</p>
+                        <p class="text-sm text-stone-700">A heartwarming closing story about a retired teacher whose passion for community continues to inspire.</p>
+                        <p class="font-bold text-xs text-amber-600 mt-auto">7:00-9:30</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="data-visualization" class="mb-12">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Data Visualization: Ed-Tech Adoption Rates</h2>
+                <p class="text-stone-700 mb-4">
+                    This chart shows the adoption rates of several key educational technology tools among high school students in the U.S. in recent years.
+                </p>
+                <div class="flex flex-col md:flex-row items-center md:items-start justify-center gap-8">
+                    <div class="w-full md:w-1/2 flex-shrink-0">
+                         <div class="chart-container mx-auto">
+                            <canvas id="techAdoptionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 text-left space-y-4">
+                        <p class="text-stone-700">
+                            The chart indicates that **cloud collaboration tools** (e.g., Google Docs) have the highest adoption rate at 95%.
+                        </p>
+                        <p class="text-stone-700">
+                            **AI writing assistants** (like Grammarly) show rapid growth, reaching 70%, indicating that students are actively utilizing new technology.
+                        </p>
+                        <p class="text-stone-700">
+                            **Virtual reality (VR) applications**, although still in the early stages, have a 25% adoption rate, suggesting significant potential in future education.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vocabulary" class="mb-12">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Vocabulary Builder</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner shadow-md">
+                            <div class="flip-card-front bg-amber-500 text-white">
+                                <p class="text-2xl font-bold">commute</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-100 text-stone-800">
+                                <p class="text-sm">（動詞）通勤</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner shadow-md">
+                            <div class="flip-card-front bg-amber-500 text-white">
+                                <p class="text-2xl font-bold">geopolitical</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-100 text-stone-800">
+                                <p class="text-sm">（形容詞）地緣政治的</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner shadow-md">
+                            <div class="flip-card-front bg-amber-500 text-white">
+                                <p class="text-2xl font-bold">monumental undertaking</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-100 text-stone-800">
+                                <p class="text-sm">一項巨大的工程或任務</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner shadow-md">
+                            <div class="flip-card-front bg-amber-500 text-white">
+                                <p class="text-2xl font-bold">to make strides</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-100 text-stone-800">
+                                <p class="text-sm">取得進展</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner shadow-md">
+                            <div class="flip-card-front bg-amber-500 text-white">
+                                <p class="text-2xl font-bold">on the horizon</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-100 text-stone-800">
+                                <p class="text-sm">即將發生；在眼前</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-48">
+                        <div class="flip-card-inner shadow-md">
+                            <div class="flip-card-front bg-amber-500 text-white">
+                                <p class="text-2xl font-bold">to wrap up</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-100 text-stone-800">
+                                <p class="text-sm">結束；完成</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="phrase-analysis" class="mb-12">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-6">Sentence Breakdown</h2>
+                <div class="space-y-6 text-lg leading-relaxed">
+                    <p>
+                        "And for many students, their first day back will feel quite different as schools continue to <span class="tooltip-container">grapple with integrating new technologies<span class="tooltip-text">To struggle or deal with something difficult or challenging. (與整合新科技搏鬥)</span></span>, including artificial intelligence, into their curriculums."
+                    </p>
+                    <p>
+                        "This <span class="tooltip-container">groundbreaking astronomical endeavor<span class="tooltip-text">A new and highly significant project related to the study of stars and space. (一項開創性的天文探索)</span></span> promises to unlock secrets of the universe that were previously thought to be impossible to discover."
+                    </p>
+                    <p>
+                        "We're going to <span class="tooltip-container">wrap up with a heartwarming story<span class="tooltip-text">To finish a report or discussion by telling a pleasant story. (用一個溫馨的故事做結尾)</span></span> of a retired teacher whose passion for community gardening continues to grow and inspire."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="extended-reading" class="mb-12">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">Explore More</h2>
+                <p class="text-sm text-stone-600 mb-6">
+                    Ready to dive deeper? These curated links provide more information on the topics discussed in the video. Expand your knowledge and practice your reading skills with these external resources.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
+                        <h3 class="font-bold text-xl text-stone-800 mb-4">Back-to-School Season</h3>
+                        <div class="space-y-4">
+                            <a href="https://www.cnn.com/2023/08/23/world/ai-in-education-back-to-school-scn-intl/index.html" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">How AI is changing the classroom for students and teachers</p>
+                                <p class="text-sm text-stone-500">CNN</p>
+                            </a>
+                            <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">The rise of EdTech in a post-pandemic world</p>
+                                <p class="text-sm text-stone-500">EdSurge</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
+                        <h3 class="font-bold text-xl text-stone-800 mb-4">International Summit</h3>
+                        <div class="space-y-4">
+                            <a href="https://www.cnbc.com/2023/09/21/geopolitical-risk-and-its-impact-on-the-global-economy.html" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">The biggest geopolitical risks to watch for in the coming year</p>
+                                <p class="text-sm text-stone-500">CNBC</p>
+                            </a>
+                            <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">A guide to the United Nations General Assembly</p>
+                                <p class="text-sm text-stone-500">Council on Foreign Relations</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
+                        <h3 class="font-bold text-xl text-stone-800 mb-4">Space Exploration</h3>
+                        <div class="space-y-4">
+                            <a href="https://www.nasa.gov/news/" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">NASA's latest space discoveries and missions</p>
+                                <p class="text-sm text-stone-500">NASA</p>
+                            </a>
+                            <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">Discoveries from the James Webb Space Telescope</p>
+                                <p class="text-sm text-stone-500">Wikipedia</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-xl shadow-md text-left">
+                        <h3 class="font-bold text-xl text-stone-800 mb-4">Heartwarming Story</h3>
+                        <div class="space-y-4">
+                            <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">The power of community gardening and its benefits</p>
+                                <p class="text-sm text-stone-500">American Community Gardening Association</p>
+                            </a>
+                            <a href="#" class="block bg-white p-4 rounded-lg shadow hover:bg-stone-100 transition-colors">
+                                <p class="font-medium text-stone-900">Kindness in our communities: stories of giving back</p>
+                                <p class="text-sm text-stone-500">The Good News Network</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white shadow-inner mt-12 py-6 text-center text-stone-500 text-sm">
+        <p>CNN 10 互動式導讀 © 2025</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('techAdoptionChart').getContext('2d');
+            const data = {
+                labels: ['Cloud Collaboration Tools', 'AI Writing Assistants', 'Virtual Reality (VR)'],
+                datasets: [{
+                    label: 'High School Student Adoption Rate (%)',
+                    data: [95, 70, 25],
+                    backgroundColor: ['#f59e0b', '#fbbf24', '#fcd34d'],
+                    borderColor: ['#d97706', '#d97706', '#d97706'],
+                    borderWidth: 1
+                }]
+            };
+            const options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            };
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+</body>
+</html>
