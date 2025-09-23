@@ -138,14 +138,13 @@
 
                 const topicElements = doc.querySelectorAll('h4');
                 const topics = Array.from(topicElements).map(el => el.textContent.trim());
-                const combinedTopic = topics.join(', ');
                 
                 const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
                 
-                return { topic: combinedTopic || '無主題資料', videoLink, status: 'success' };
+                return { topics, videoLink, status: 'success' };
             } catch (error) {
                 console.error(`Error fetching guide data for ${fileName}:`, error);
-                return { topic: '無主題資料', videoLink: '#', status: 'error' };
+                return { topics: [], videoLink: '#', status: 'error' };
             }
         }
 
@@ -166,20 +165,25 @@
 
         async function updateContent() {
             const today = new Date();
-            const { topic: latestTopic, videoLink: latestVideoLink, status: latestStatus } = await fetchGuideData(today);
+            const { topics: latestTopics, videoLink: latestVideoLink, status: latestStatus } = await fetchGuideData(today);
             const latestGuideLink = document.getElementById('latest-guide-link');
             const latestGuideThumbnail = document.getElementById('latest-guide-thumbnail');
             const latestGuideTitle = document.getElementById('latest-guide-title');
             const watchVideoBtn = document.getElementById('watch-video-btn');
 
-            if (latestStatus === 'success' && latestTopic !== '無主題資料') {
+            // 處理最新導讀的主題顯示
+            if (latestStatus === 'success' && latestTopics.length > 0) {
                 const formattedDate = formatDate(today);
                 const fileUrl = `./${formattedDate}.html`;
                 
                 latestGuideLink.href = fileUrl;
-                latestGuideThumbnail.src = `https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=${encodeURIComponent(latestTopic)}`;
-                latestGuideThumbnail.alt = latestTopic;
-                latestGuideTitle.textContent = latestTopic;
+                // 使用多行文字作為縮圖的替代文字
+                latestGuideThumbnail.src = `https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=${encodeURIComponent(latestTopics.join('\n'))}`;
+                latestGuideThumbnail.alt = latestTopics.join(' ');
+                
+                // 將每個主題用 <p> 標籤分段顯示
+                latestGuideTitle.innerHTML = latestTopics.map(topic => `<p class="mb-1">${topic}</p>`).join('');
+                
                 watchVideoBtn.href = latestVideoLink;
                 watchVideoBtn.style.display = '';
             } else {
@@ -190,18 +194,25 @@
                 watchVideoBtn.style.display = 'none';
             }
 
+            // 處理近期導讀的主題顯示
             const recentReadingsList = document.getElementById('recent-readings-list');
             recentReadingsList.innerHTML = '';
             const recentDates = getLastSevenWeekdays();
             for (const date of recentDates) {
-                const { topic, status } = await fetchGuideData(date);
-                if (status === 'success' && topic !== '無主題資料') {
+                const { topics, status } = await fetchGuideData(date);
+                if (status === 'success' && topics.length > 0) {
                     const formattedDate = formatDate(date);
                     const fileUrl = `./${formattedDate}.html`;
+                    
                     const link = document.createElement('a');
                     link.href = fileUrl;
                     link.classList.add('report-link', 'bg-stone-100', 'hover:bg-amber-100', 'text-stone-700', 'p-3', 'rounded-lg', 'transition-colors', 'text-left');
-                    link.innerHTML = `<span class="font-bold">${formattedDate}</span> – ${topic}`;
+                    
+                    // 將每個主題用 <p> 標籤分段顯示
+                    const topicsHtml = topics.map(topic => `<p class="mb-0.5">${topic}</p>`).join('');
+                    
+                    link.innerHTML = `<span class="font-bold">${formattedDate}</span><br>${topicsHtml}`;
+                    
                     recentReadingsList.appendChild(link);
                 }
             }
