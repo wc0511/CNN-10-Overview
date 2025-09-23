@@ -136,12 +136,13 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                const topicElement = doc.querySelector('h4.report-topic');
-                const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
+                const topicElements = doc.querySelectorAll('h4');
+                const topics = Array.from(topicElements).map(el => el.textContent.trim());
+                const combinedTopic = topics.join(', ');
                 
                 const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
                 
-                return { topic, videoLink, status: 'success' };
+                return { topic: combinedTopic || '無主題資料', videoLink, status: 'success' };
             } catch (error) {
                 console.error(`Error fetching guide data for ${fileName}:`, error);
                 return { topic: '無主題資料', videoLink: '#', status: 'error' };
@@ -171,7 +172,7 @@
             const latestGuideTitle = document.getElementById('latest-guide-title');
             const watchVideoBtn = document.getElementById('watch-video-btn');
 
-            if (latestStatus === 'success') {
+            if (latestStatus === 'success' && latestTopic !== '無主題資料') {
                 const formattedDate = formatDate(today);
                 const fileUrl = `./${formattedDate}.html`;
                 
@@ -194,7 +195,7 @@
             const recentDates = getLastSevenWeekdays();
             for (const date of recentDates) {
                 const { topic, status } = await fetchGuideData(date);
-                if (status === 'success') {
+                if (status === 'success' && topic !== '無主題資料') {
                     const formattedDate = formatDate(date);
                     const fileUrl = `./${formattedDate}.html`;
                     const link = document.createElement('a');
