@@ -128,7 +128,6 @@
             const fileName = `${formattedDate}.html`;
             
             try {
-                // 使用相對路徑來讀取文件，這是 GitHub Pages 上最可靠的方式
                 const response = await fetch(fileName);
                 if (!response.ok) {
                     throw new Error(`HTTP status ${response.status}`);
@@ -140,7 +139,6 @@
                 const topicElement = doc.querySelector('h2.report-topic');
                 const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
                 
-                // 獲取原始影片連結
                 const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
                 
                 return { topic, videoLink, status: 'success' };
@@ -152,12 +150,12 @@
 
         function getLastSevenWeekdays() {
             const dates = [];
-            let daysAgo = 1; // 從昨天開始
+            let daysAgo = 1; 
             const today = new Date();
             while (dates.length < 7) {
                 const d = new Date(today);
                 d.setDate(today.getDate() - daysAgo);
-                if (d.getDay() !== 0 && d.getDay() !== 6) { // 0 = Sunday, 6 = Saturday
+                if (d.getDay() !== 0 && d.getDay() !== 6) { 
                     dates.push(d);
                 }
                 daysAgo++;
@@ -166,7 +164,6 @@
         }
 
         async function updateContent() {
-            // Get today's guide data
             const today = new Date();
             const { topic: latestTopic, videoLink: latestVideoLink, status: latestStatus } = await fetchGuideData(today);
             const latestGuideLink = document.getElementById('latest-guide-link');
@@ -192,7 +189,6 @@
                 watchVideoBtn.style.display = 'none';
             }
 
-            // Get recent readings
             const recentReadingsList = document.getElementById('recent-readings-list');
             recentReadingsList.innerHTML = '';
             const recentDates = getLastSevenWeekdays();
