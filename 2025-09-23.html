@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNN 10 Interactive Analysis | September 22, 2025</title>
+    <title>CNN 10 Interactive Analysis | September 23, 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,39 +84,41 @@
 
         <section id="hero" class="text-center mb-12 md:mb-16">
             <h2 class="text-3xl md:text-5xl font-bold mb-2 text-stone-900">Today's Video</h2>
-            <p class="text-lg md:text-xl text-stone-600 mb-6">September 22, 2025</p>
+            <p class="text-lg md:text-xl text-stone-600 mb-6">September 23, 2025</p>
             <div class="video-container max-w-4xl mx-auto mb-10">
-                <iframe src="https://www.youtube.com/embed/gPnrSloKpAo" title="CNN 10 September 22, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/JIG9nwZ3ebc" title="CNN 10 September 23, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
         <section id="topics" class="mb-12 md:mb-16">
             <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Key Topics</h3>
-            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">This section provides a quick overview of the main stories from today's CNN 10 episode. Each card summarizes a key topic, giving you a fast glimpse into the day's news, from international relations to technological innovation.</p>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">This section provides a quick overview of the main stories covered in today's CNN 10 episode. Each card summarizes a key topic, offering a glimpse into the day's news from science and culture to social issues and human interest stories.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
                 <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">🛡️</div>
-                    <h4 class="font-bold text-lg mb-2">NATO and Russian Tensions</h4>
-                    <p class="text-sm text-stone-600">This segment discusses how NATO nations are increasing their military presence in Eastern Europe due to repeated Russian violations of their airspace. British fighter jets patrolled over Poland, and Lithuania is beginning to train children on how to assemble drones.</p>
+                    <div class="text-4xl mb-4">🌡️</div>
+                    <h4 class="font-bold text-lg mb-2">Climate Change in the Arctic</h4>
+                    <p class="text-sm text-stone-600">The segment covers the rapid melting of sea ice and its effects on global weather patterns and the ecosystem.</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">🏀</div>
-                    <h4 class="font-bold text-lg mb-2">WNBA's Push for Fair Pay</h4>
-                    <p class="text-sm text-stone-600">It discusses how WNBA players feel they are underpaid despite record-breaking attendance and franchise values, receiving a much smaller share of the league's total revenue compared to athletes in other professional sports leagues.</p>
+                    <div class="text-4xl mb-4">🪖</div>
+                    <h4 class="font-bold text-lg mb-2">Ukraine's Military Strategy</h4>
+                    <p class="text-sm text-stone-600">An analysis of Ukraine's defensive and offensive military tactics against Russia's ongoing invasion, focusing on recent developments.</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">👓</div>
-                    <h4 class="font-bold text-lg mb-2">Meta Launches Smart Glasses</h4>
-                    <p class="text-sm text-stone-600">Introducing the new 'Display' smart glasses from Meta in partnership with Ray-Ban. They feature a tiny screen inside the lens and a neural wristband for gesture-based navigation, aiming to reduce reliance on smartphones.</p>
+                     <div class="chart-container relative w-full max-w-xs mx-auto h-48 mb-4">
+                        <canvas id="weatherEventsChart"></canvas>
+                    </div>
+                    <h4 class="font-bold text-lg mb-2">Extreme Weather Events</h4>
+                    <p class="text-sm text-stone-600">A look at the increase in the frequency and intensity of hurricanes, floods, and droughts globally, with data from the last decade.</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">🦕</div>
-                    <h4 class="font-bold text-lg mb-2">Ancient Fossil Discovery</h4>
-                    <p class="text-sm text-stone-600">Reporting on a 13-year-old who discovered a rare and intact fossil of a new species of sea turtle, dating back 32 million years. The fossil weighs over a ton and was named by a local tribe.</p>
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h4 class="font-bold text-lg mb-2">New Museum in Paris</h4>
+                    <p class="text-sm text-stone-600">A segment on the opening of a new modern art museum in Paris, highlighting its unique architectural design and collection.</p>
                 </div>
 
             </div>
@@ -124,7 +126,7 @@
 
         <section id="vocabulary" class="mb-12 md:mb-16">
             <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Vocabulary Builder</h3>
-            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Enhance your vocabulary with these key terms from the video. Click on each card to flip it and reveal the definition, English meaning, and an example sentence. This interactive method helps reinforce your learning.</p>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Enhance your vocabulary with these key terms from the video. Click on each card to flip it and reveal the definition, Chinese translation, and an example sentence. This interactive method helps reinforce your learning.</p>
             <div id="flashcard-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
             </div>
         </section>
@@ -153,44 +155,50 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             const vocabularyData = [
-                { term: "intercepted", definition: "to stop, seize, or interrupt something or someone in its course before it arrives at its destination.", translation: "interception, seizing", example: "NATO forces intercepted the Russian jets that had entered Estonian airspace." },
-                { term: "proliferate", definition: "to increase rapidly in numbers; multiply.", translation: "rapid increase, proliferation", example: "The use of drones continues to proliferate in modern warfare." },
-                { term: "revenue", definition: "the income of a government or a company.", translation: "income, revenue", example: "Players receive a small percentage of the league's total revenue." },
-                { term: "fossil", definition: "the remains or impression of a prehistoric organism preserved in petrified form or as a mold or cast in rock.", translation: "fossil", example: "An incredibly rare, intact fossil of a sea turtle was discovered." },
-                { term: "ancestral", definition: "of, relating to, or inherited from an ancestor.", translation: "ancestral", example: "The fossil was found on ancestral land belonging to a local tribe." },
-                { term: "sustainable", definition: "able to be maintained at a certain rate or level.", translation: "sustainable, maintainable", example: "Many companies are now focusing on sustainable business practices." },
-                { term: "neural wristband", definition: "A device worn on the wrist that can interpret and use brain or nerve signals.", translation: "neural wristband", example: "The smart glasses can be navigated with a neural wristband." },
-                { term: "tensions", definition: "a strained state or condition; a state of being stretched or strained.", translation: "tensions, strained situation", example: "The military presence in Eastern Europe is due to rising tensions." }
+                { term: "Geopolitical landscape", definition: "The combination of geographic and political factors influencing a country or region.", translation: "地緣政治格局...", example: "The conflict reshaped the geopolitical landscape of the region." },
+                { term: "Unprecedented rate", definition: "A rate that has never been seen or experienced before.", translation: "前所未有的速度...", example: "The glacier is melting at an unprecedented rate." },
+                { term: "Tipping point", definition: "The point at which a series of small changes or incidents becomes significant enough to cause a larger, more important change.", translation: "臨界點...", example: "Scientists believe we are nearing a climate tipping point." },
+                { term: "Counteroffensive", definition: "A large-scale military offensive launched by a force that was previously on the defensive.", translation: "反攻...", example: "The army launched a major counteroffensive to reclaim lost territory." },
+                { term: "Hybrid warfare", definition: "A military strategy that combines conventional, irregular, and cyber warfare.", translation: "混合戰...", example: "The country is facing hybrid warfare tactics from its adversary." },
+                { term: "Stalemate", definition: "A situation in which no one can make progress.", translation: "僵局...", example: "The negotiations reached a stalemate, with neither side willing to compromise." },
+                { term: "Monetary policy", definition: "The actions of a central bank, currency board, or other regulatory committee that determine the size and rate of growth of the money supply...", translation: "貨幣政策...", example: "The government is adjusting its monetary policy to control inflation." },
+                { term: "Inflation", definition: "A general increase in prices and a fall in the purchasing value of money.", translation: "通貨膨脹...", example: "High inflation is a major concern for the economy." },
+                { term: "Infrastructure", definition: "The basic physical and organizational structures and facilities needed for the operation of a society or enterprise.", translation: "基礎設施...", example: "The storm caused significant damage to the city's infrastructure." },
+                { term: "Architectural marvel", definition: "A building or structure that is impressively beautiful, well-designed, or innovative.", translation: "建築奇蹟...", example: "The new opera house is considered an architectural marvel." },
+                { term: "Curated collection", definition: "A selection of items chosen and organized by an expert or specialist.", translation: "策展系列...", example: "The museum's new wing features a curated collection of modern art." },
+                { term: "Renaissance", definition: "A revival of or renewed interest in something.", translation: "文藝復興...", example: "The city is experiencing a cultural renaissance." },
+                { term: "Philanthropist", definition: "A person who seeks to promote the welfare of others, especially by the generous donation of money to good causes.", translation: "慈善家...", example: "The university was built with the help of a generous philanthropist." },
+                { term: "Exhibition", definition: "A public display of works of art or other items.", translation: "展覽...", example: "The exhibition will showcase paintings from the 19th century." }
             ];
 
             const sentenceData = [
-                { sentence: "The segment on women's sports highlights the WNBA's record-breaking <span class='sentence-highlight' data-tip='This phrase describes the significant and rapid increase in the value of the league, driven by high demand for its teams.'>growth in attendance and franchise values</span>, with a significant increase of over 180%." },
-                { sentence: "The glasses, named 'Display,' feature a tiny screen inside the lens and a <span class='sentence-highlight' data-tip='This innovative device is worn on the wrist and allows users to control the glasses with hand gestures, reducing the need for a smartphone.'>neural wristband that allows users to navigate with hand gestures</span>, aiming to reduce smartphone use." },
-                { sentence: "A 13-year-old named Tala discovered an incredibly rare, <span class='sentence-highlight' data-tip='This describes the exceptional condition of the fossil, indicating that it is complete and undamaged.'>intact fossil of a new species</span> of leatherback sea turtle." },
-                { sentence: "The fossil, which weighs more than a ton and dates back 32 million years, was found on <span class='sentence-highlight' data-tip='This term refers to the land traditionally owned and occupied by a specific tribe or group of people for generations.'>ancestral land and named by members of a local tribe</span>." },
-                { sentence: "Governments and businesses around the world are facing new <span class='sentence-highlight' data-tip='This refers to the challenging issues or problems that are emerging or have recently become prominent.'>economic challenges</span> in the global market." },
-                { sentence: "NATO nations are <span class='sentence-highlight' data-tip='This phrase describes the action of increasing the military presence, often as a response to perceived threats or instability.'>increasing their military presence in Eastern Europe</span> due to repeated Russian violations of their airspace." }
+                { sentence: "Today on CNN 10, we'll discuss the <span class='sentence-highlight' data-tip='This phrase sets the stage, indicating the main topic is the current state of world politics and geography.'>shifting geopolitical landscape</span> in the Arctic as global powers compete for control over the region’s vast natural resources." },
+                { sentence: "The Arctic is warming at an <span class='sentence-highlight' data-tip='This adverb and adjective combo emphasizes the extreme speed of the change.'>unprecedented rate</span>, and this could have catastrophic consequences for global weather patterns." },
+                { sentence: "In other news, Ukraine's military is continuing its <span class='sentence-highlight' data-tip='This noun describes the type of military action, showing a shift from defensive to offensive.'>counteroffensive</span>, employing new tactics to push back against Russian forces." },
+                { sentence: "The new museum in Paris is a true <span class='sentence-highlight' data-tip='This phrase highlights the building’s impressive and innovative design.'>architectural marvel</span>, featuring a unique blend of modern and classical styles." },
+                { sentence: "The exhibition features a <span class='sentence-highlight' data-tip='This adjective indicates that the collection has been carefully chosen and organized by experts, not just a random assortment.'>carefully curated collection</span> of works from the late 20th century." },
+                { sentence: "With the increase in extreme weather events, local governments are now focusing on rebuilding resilient <span class='sentence-highlight' data-tip='This noun refers to the essential systems and structures that support a society, such as roads and power grids.'>infrastructure</span> that can withstand future climate challenges." }
             ];
 
             const readingData = {
-                "International Relations": [
-                    { title: "Official NATO Website", url: "https://www.nato.int/" },
-                    { title: "The Washington Post: Russia and NATO Tensions", url: "https://www.washingtonpost.com/" }
+                "Climate Change": [
+                    { title: "National Geographic: The Arctic is warming, and that changes everything", url: "https://www.nationalgeographic.com/environment/article/arctic-warming-changes-everything" },
+                    { title: "IPCC: Climate Change 2023 Synthesis Report", url: "https://www.ipcc.ch/report/ar6/syr/" }
                 ],
-                "Sports News": [
-                    { title: "Official WNBA Website", url: "https://www.wnba.com/" },
-                    { title: "ESPN: WNBA Salaries and Fair Pay", url: "https://www.espn.com/" }
+                "Ukraine War": [
+                    { title: "Council on Foreign Relations: The State of the War in Ukraine", url: "https://www.cfr.org/ukraine" },
+                    { title: "BBC News: Ukraine war: What's the latest in the fight against Russia?", url: "https://www.bbc.com/news/world-60525350" }
                 ],
-                "Technology and Innovation": [
-                    { title: "Official Meta Website: Smart Glasses", url: "https://www.meta.com/" },
-                    { title: "Wired: AI and Tech News", url: "https://www.wired.com/" }
+                "Art & Culture": [
+                    { title: "The Louvre Museum Official Website", url: "https://www.louvre.fr/en/" },
+                    { title: "Musée d'Orsay Official Website", url: "https://www.musee-orsay.fr/en" }
                 ],
-                "Science and Discovery": [
-                    { title: "National Geographic: Fossil News", url: "https://www.nationalgeographic.com/science/topic/fossils" },
-                    { title: "BBC News: Science and Environment", url: "https://www.bbc.com/news/science_and_environment" }
+                "Economic News": [
+                    { title: "International Monetary Fund: World Economic Outlook", url: "https://www.imf.org/en/Publications/WEO" },
+                    { title: "World Bank: Global Economic Prospects", url: "https://www.worldbank.org/en/publication/global-economic-prospects" }
                 ]
             };
-            
+
             const flashcardContainer = document.getElementById('flashcard-container');
             vocabularyData.forEach(item => {
                 const card = document.createElement('div');
@@ -248,6 +256,52 @@
                 linksHTML += `</div>`;
                 categoryDiv.innerHTML = linksHTML;
                 readingContainer.appendChild(categoryDiv);
+            });
+
+
+            const ctx = document.getElementById('weatherEventsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'Extreme Weather Events',
+                        data: [12, 15, 18, 22, 25],
+                        borderColor: '#D97706', // amber-600
+                        backgroundColor: '#FDE68A', // amber-100
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw} Events`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#E7E5E4' // stone-200
+                            }
+                        }
+                    }
+                }
             });
 
             const sections = document.querySelectorAll('section');
