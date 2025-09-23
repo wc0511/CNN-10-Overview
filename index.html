@@ -123,6 +123,14 @@
             return `${year}-${month}-${day}`;
         }
 
+        // 從 YouTube 網址中提取影片 ID
+        function getYouTubeVideoId(url) {
+            if (!url) return null;
+            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const match = url.match(regex);
+            return (match && match[1]) ? match[1] : null;
+        }
+
         async function fetchGuideData(date) {
             const formattedDate = formatDate(date);
             const fileName = `${formattedDate}.html`;
@@ -175,11 +183,18 @@
             if (latestStatus === 'success' && latestTopics.length > 0) {
                 const formattedDate = formatDate(today);
                 const fileUrl = `./${formattedDate}.html`;
-                
+                const videoId = getYouTubeVideoId(latestVideoLink);
+
                 latestGuideLink.href = fileUrl;
-                // 使用多行文字作為縮圖的替代文字
-                latestGuideThumbnail.src = `https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=${encodeURIComponent(latestTopics.join('\n'))}`;
-                latestGuideThumbnail.alt = latestTopics.join(' ');
+                
+                // 如果成功取得影片ID，顯示 YouTube 封面圖；否則使用預設的圖片
+                if (videoId) {
+                    latestGuideThumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                    latestGuideThumbnail.alt = `每日導讀影片封面`;
+                } else {
+                    latestGuideThumbnail.src = `https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=${encodeURIComponent(latestTopics.join('\n'))}`;
+                    latestGuideThumbnail.alt = latestTopics.join(' ');
+                }
                 
                 // 將每個主題用 <p> 標籤分段顯示
                 latestGuideTitle.innerHTML = latestTopics.map(topic => `<p class="mb-1">${topic}</p>`).join('');
