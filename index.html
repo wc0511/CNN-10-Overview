@@ -136,7 +136,7 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                const topicElement = doc.querySelector('h2.report-topic');
+                const topicElement = doc.querySelector('h4.report-topic');
                 const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
                 
                 const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
