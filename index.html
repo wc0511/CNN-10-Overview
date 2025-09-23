@@ -127,11 +127,9 @@
             const formattedDate = formatDate(date);
             const fileName = `${formattedDate}.html`;
             
-            // 修正路徑以處理本地文件系統或伺服器環境
-            const fileUrl = window.location.protocol + '//' + window.location.host + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/' + fileName;
-            
             try {
-                const response = await fetch(fileUrl);
+                // 使用相對路徑來讀取文件，這是 GitHub Pages 上最可靠的方式
+                const response = await fetch(fileName);
                 if (!response.ok) {
                     throw new Error(`HTTP status ${response.status}`);
                 }
