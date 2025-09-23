@@ -74,7 +74,7 @@
                     <img id="latest-guide-thumbnail" class="rounded-lg w-full mb-4" src="https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=Loading..." alt="最新導讀影片封面">
                 </a>
                 <h3 id="latest-guide-title" class="text-xl md:text-2xl font-bold text-stone-900 mb-2">
-                    Loading...
+                    載入中...
                 </h3>
                 <a id="watch-video-btn" href="#" class="inline-block bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg button mt-4" target="_blank" rel="noopener noreferrer">
                     觀看影片
@@ -86,7 +86,7 @@
         <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center max-w-2xl mx-auto mt-8">
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-stone-900">近期導讀</h2>
             <div id="recent-readings-list" class="flex flex-col space-y-4 text-left">
-                <!-- Content will be dynamically added here -->
+                <!-- 內容會在此處動態加入 -->
             </div>
         </div>
         
@@ -128,7 +128,8 @@
         async function fetchGuideData(date) {
             const formattedDate = formatDate(date);
             const fileName = `${formattedDate}.html`;
-            const fileUrl = window.location.origin + window.location.pathname.replace('index.html', '') + fileName;
+            // The file path now directly uses the provided file name
+            const fileUrl = `${fileName}`;
             try {
                 const response = await fetch(fileUrl);
                 if (response.ok) {
@@ -136,26 +137,33 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(htmlText, 'text/html');
 
-                    // Assumption: The topic is in an h2 tag with the class 'report-topic' in the daily report file.
-                    // If you change the class in your daily files, you'll need to update this line.
+                    // 尋找h2標籤中帶有'report-topic' class的元素來獲取主題
                     const topicElement = doc.querySelector('h2.report-topic');
-                    const topic = topicElement ? topicElement.textContent.trim() : 'N/A';
+                    const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
                     
-                    // Assumption: The video URL is in a meta tag or link tag.
+                    // 尋找meta tag或link tag來獲取影片網址
                     const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
                     
-                    return { topic, videoLink };
+                    return { topic, videoLink, status: 'success' };
+                } else {
+                    console.error(`Error fetching guide data for ${fileName}: HTTP status ${response.status}`);
+                    return { topic: '無主題資料', videoLink: '#', status: 'error' };
                 }
             } catch (error) {
                 console.error(`Error fetching guide data for ${fileName}:`, error);
+                return { topic: '無主題資料', videoLink: '#', status: 'error' };
             }
-            return { topic: 'N/A', videoLink: '#' };
         }
 
         // Function to get the last 7 non-weekend days
         function getLastSevenWeekdays() {
             const dates = [];
             let daysAgo = 1;
+            // Get today's date first, then go back 6 more days to get a total of 7
+            const today = new Date();
+            if (today.getDay() !== 0 && today.getDay() !== 6) {
+                dates.push(today);
+            }
             while (dates.length < 7) {
                 const d = new Date();
                 d.setDate(d.getDate() - daysAgo);
@@ -172,13 +180,13 @@
         async function updateContent() {
             // Get today's guide data
             const today = new Date();
-            const { topic: latestTopic, videoLink: latestVideoLink } = await fetchGuideData(today);
+            const { topic: latestTopic, videoLink: latestVideoLink, status: latestStatus } = await fetchGuideData(today);
             const latestGuideLink = document.getElementById('latest-guide-link');
             const latestGuideThumbnail = document.getElementById('latest-guide-thumbnail');
             const latestGuideTitle = document.getElementById('latest-guide-title');
             const watchVideoBtn = document.getElementById('watch-video-btn');
 
-            if (latestTopic && latestTopic !== 'N/A') {
+            if (latestStatus === 'success') {
                 const formattedDate = formatDate(today);
                 const fileUrl = `${formattedDate}.html`;
                 
@@ -187,11 +195,11 @@
                 latestGuideThumbnail.alt = latestTopic;
                 latestGuideTitle.textContent = latestTopic;
                 watchVideoBtn.href = latestVideoLink;
-                
+                watchVideoBtn.style.display = '';
             } else {
                 latestGuideLink.href = '#';
                 latestGuideThumbnail.src = `https://placehold.co/600x337/E4E4E7/292524?text=${encodeURIComponent('今日無導讀內容')}`;
-                latestGuideThumbnail.alt = 'No topic available';
+                latestGuideThumbnail.alt = '無導讀內容';
                 latestGuideTitle.textContent = '今日無導讀內容';
                 watchVideoBtn.style.display = 'none';
             }
@@ -201,8 +209,8 @@
             recentReadingsList.innerHTML = ''; // Clear previous list
             const recentDates = getLastSevenWeekdays();
             for (const date of recentDates) {
-                const { topic, videoLink } = await fetchGuideData(date);
-                if (topic && topic !== 'N/A') {
+                const { topic, videoLink, status } = await fetchGuideData(date);
+                if (status === 'success') {
                     const formattedDate = formatDate(date);
                     const fileUrl = `${formattedDate}.html`;
                     const link = document.createElement('a');
