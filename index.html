@@ -128,27 +128,22 @@
         async function fetchGuideData(date) {
             const formattedDate = formatDate(date);
             const fileName = `${formattedDate}.html`;
-            // The file path now directly uses the provided file name
-            const fileUrl = `${fileName}`;
+            const fileUrl = `./${fileName}`;
             try {
                 const response = await fetch(fileUrl);
-                if (response.ok) {
-                    const htmlText = await response.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(htmlText, 'text/html');
-
-                    // 尋找h2標籤中帶有'report-topic' class的元素來獲取主題
-                    const topicElement = doc.querySelector('h2.report-topic');
-                    const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
-                    
-                    // 尋找meta tag或link tag來獲取影片網址
-                    const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
-                    
-                    return { topic, videoLink, status: 'success' };
-                } else {
-                    console.error(`Error fetching guide data for ${fileName}: HTTP status ${response.status}`);
-                    return { topic: '無主題資料', videoLink: '#', status: 'error' };
+                if (!response.ok) {
+                    throw new Error(`HTTP status ${response.status}`);
                 }
+                const htmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                const topicElement = doc.querySelector('h2.report-topic');
+                const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
+                
+                const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
+                
+                return { topic, videoLink, status: 'success' };
             } catch (error) {
                 console.error(`Error fetching guide data for ${fileName}:`, error);
                 return { topic: '無主題資料', videoLink: '#', status: 'error' };
@@ -158,12 +153,7 @@
         // Function to get the last 7 non-weekend days
         function getLastSevenWeekdays() {
             const dates = [];
-            let daysAgo = 1;
-            // Get today's date first, then go back 6 more days to get a total of 7
-            const today = new Date();
-            if (today.getDay() !== 0 && today.getDay() !== 6) {
-                dates.push(today);
-            }
+            let daysAgo = 0;
             while (dates.length < 7) {
                 const d = new Date();
                 d.setDate(d.getDate() - daysAgo);
@@ -188,7 +178,7 @@
 
             if (latestStatus === 'success') {
                 const formattedDate = formatDate(today);
-                const fileUrl = `${formattedDate}.html`;
+                const fileUrl = `./${formattedDate}.html`;
                 
                 latestGuideLink.href = fileUrl;
                 latestGuideThumbnail.src = `https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=${encodeURIComponent(latestTopic)}`;
@@ -209,10 +199,10 @@
             recentReadingsList.innerHTML = ''; // Clear previous list
             const recentDates = getLastSevenWeekdays();
             for (const date of recentDates) {
-                const { topic, videoLink, status } = await fetchGuideData(date);
+                const { topic, status } = await fetchGuideData(date);
                 if (status === 'success') {
                     const formattedDate = formatDate(date);
-                    const fileUrl = `${formattedDate}.html`;
+                    const fileUrl = `./${formattedDate}.html`;
                     const link = document.createElement('a');
                     link.href = fileUrl;
                     link.classList.add('report-link', 'bg-stone-100', 'hover:bg-amber-100', 'text-stone-700', 'p-3', 'rounded-lg', 'transition-colors', 'text-left');
@@ -282,7 +272,6 @@
                 }
             });
         });
-
     </script>
 </body>
 </html>
