@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNN 10 Interactive Analysis | September 17, 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A thematic, single-page vertical scrolling application was chosen for its intuitive user flow. It starts with a high-level overview of the news topics, allowing users to grasp the main points quickly. It then progressively deepens the content with interactive sections for Vocabulary, Sentence Analysis, and Further Reading. This structure supports both linear learning (scrolling through) and topic-based exploration (using the sticky navigation). Key interactions like flashcards and clickable sentence tips are designed to make learning active rather than passive, which is ideal for the target user (an English learner). -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Data on climate change and extreme weather. Goal: Show a progression or trend. Viz/Method: Line Chart (Chart.js). Interaction: Tooltip on hover. Justification: A line chart is ideal for visualizing data over time, making trends in extreme weather events clear and memorable.
+        - Report Info: Vocabulary list. Goal: Organize for memorization. Viz/Method: Interactive Flashcards (HTML/CSS/JS). Interaction: Click to flip. Justification: This transforms a passive list into an active learning tool, mimicking a proven study method.
+        - Report Info: Challenging sentences. Goal: Organize and explain complex grammar. Viz/Method: Annotated Text (HTML/CSS/JS). Interaction: Click on highlighted phrases to reveal tips. Justification: This provides contextual, on-demand explanations without cluttering the initial view.
+        - All other textual content from the report is organized into styled cards and sections for readability.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+        }
+        .nav-link.active {
+            color: #D97706; /* amber-600 */
+            font-weight: 700;
+        }
+        .flashcard-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .sentence-highlight {
+            cursor: pointer;
+            border-bottom: 2px dotted #D97706; /* amber-600 */
+            font-weight: 500;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold text-stone-900">CNN 10 Overview</h1>
+                <div class="hidden md:flex space-x-8 text-stone-600">
+                    <a href="#hero" class="nav-link hover:text-amber-600 transition-colors">Today's Video</a>
+                    <a href="#topics" class="nav-link hover:text-amber-600 transition-colors">Key Topics</a>
+                    <a href="#vocabulary" class="nav-link hover:text-amber-600 transition-colors">Vocabulary Builder</a>
+                    <a href="#sentences" class="nav-link hover:text-amber-600 transition-colors">Sentence Breakdown</a>
+                    <a href="#explore" class="nav-link hover:text-amber-600 transition-colors">Explore More</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="hero" class="text-center mb-12 md:mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-2 text-stone-900">Today's Video</h2>
+            <p class="text-lg md:text-xl text-stone-600 mb-6">September 17, 2025</p>
+            <div class="video-container max-w-4xl mx-auto mb-10">
+                <iframe src="https://www.youtube.com/embed/Llm6pPkVFkQ" title="CNN 10 September 17, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="topics" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Key Topics</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">This section provides a quick overview of the main stories from today's CNN 10 episode. Each card summarizes a key topic, giving you a fast glimpse into the day's news, from international relations to technological innovation.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">🎵</div>
+                    <h4 class="font-bold text-lg mb-2">TikTok Deal</h4>
+                    <p class="text-sm text-stone-600">An agreement has been reached between the U.S. and China to keep the social media app TikTok operational in the United States. The deal aims to address national security concerns, though it remains unclear if TikTok's algorithm will change.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">💳</div>
+                    <h4 class="font-bold text-lg mb-2">Credit Scores</h4>
+                    <p class="text-sm text-stone-600">The video discusses a concerning trend of falling credit scores, particularly among Gen Z. Experts recommend several ways to improve your credit score, such as making payments on time and checking for inaccuracies in your credit reports.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">🦷</div>
+                    <h4 class="font-bold text-lg mb-2">"Tooth-in-Eye" Surgery</h4>
+                    <p class="text-sm text-stone-600">The report highlights an unusual procedure called "tooth-in-eye" surgery used to restore sight for people with severe corneal damage. The surgery involves using the patient's own canine tooth as a mount for a plastic lens.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">🌻</div>
+                    <h4 class="font-bold text-lg mb-2">World's Tallest Sunflower</h4>
+                    <p class="text-sm text-stone-600">The video mentions a new Guinness World Record for the tallest sunflower, which stands at 35 feet and 9 inches tall, grown by a New Jersey farmer. It also features a segment about civil rights icon Ruby Bridges' runway debut.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="vocabulary" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Vocabulary Builder</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Enhance your vocabulary with these key terms from the video. Click on each card to flip it and reveal the definition, English meaning, and an example sentence. This interactive method helps reinforce your learning.</p>
+            <div id="flashcard-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            </div>
+        </section>
+
+        <section id="sentences" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Sentence Breakdown</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Some sentences in the video might be fast or complex. Here, we break them down for you. Click on the <span class="sentence-highlight">highlighted phrases</span> to see a helpful tip or explanation to better understand the structure and meaning.</p>
+            <div id="sentence-container" class="space-y-6 bg-white p-6 rounded-xl shadow-md">
+            </div>
+        </section>
+
+        <section id="explore" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Explore More</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Ready to dive deeper? These curated links provide more information on the topics discussed in the video. Expand your knowledge and practice your reading skills with these external resources.</p>
+            <div id="reading-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-6 text-stone-500 text-sm">
+        <p>This interactive report was generated to enhance the CNN 10 learning experience.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const vocabularyData = [
+                { term: "Ameliorate", definition: "To make something better or more tolerable.", translation: "改善，使…變得更好", example: "The new policies are designed to ameliorate the housing shortage." },
+                { term: "Unbudievable", definition: "A playful term combining 'unbelievable' with 'bud' in reference to a flower, used to describe something incredible.", translation: "不可思議的（花朵相關的俏皮語）", example: "That giant sunflower is absolutely unbudievable!" },
+                { term: "Osteo-odonto-keratoprosthesis (OKP)", definition: "The technical name for a surgical procedure that uses a patient's own tooth to support a new lens in the eye.", translation: "牙齒眼部角膜修復術", example: "The patient underwent osteo-odonto-keratoprosthesis to restore his vision." },
+                { term: "Perennial", definition: "Lasting or existing for a long or apparently infinite time; used to describe plants that live for many years.", translation: "多年生的；長久的", example: "Sunflowers are annuals, but some other plants are perennial." },
+                { term: "Resplendent", definition: "Attractive and impressive through being richly colorful or sumptuous.", translation: "華麗的；燦爛的", example: "Ruby Bridges looked resplendent in her runway debut." }
+            ];
+
+            const sentenceData = [
+                { sentence: "New data shows that <span class='sentence-highlight' data-tip='This refers to people in Generation Z, typically those born between the late 1990s and early 2010s.'>Gen Z folks ages 13 to 28</span> are notching some really low scores falling at the fastest pace since the Great Recession nearly 20 years ago." },
+                { sentence: "It may have sounded out there but after <span class='sentence-highlight' data-tip='This phrase means that someone lost most of their vision, possibly due to an injury or a condition.'>losing most of his sight</span> when he was 13 years old and going through almost 50 surgeries trying to regain it, Chapman was willing to give it a try." },
+                { sentence: "Once Bridges entered the school and arrived at her classroom, all the other students had withdrawn; for the rest of the school year it was just her and her teacher, but <span class='sentence-highlight' data-tip='This means Ruby Bridges stayed at the school despite the negative actions taken against her family by others.'>Bridges stayed at the school despite retaliation against her family</span>." }
+            ];
+
+            const readingData = {
+                "Technology & Business": [
+                    { title: "TikTok's Future in the U.S.", url: "https://www.google.com/search?q=tiktok+deal+us+china" },
+                    { title: "Understanding Credit Scores", url: "https://www.consumerfinance.gov/consumer-tools/credit-reports-and-scores/" }
+                ],
+                "Science & Health": [
+                    { title: "Cleveland Clinic: OOKP Surgery", url: "https://my.clevelandclinic.org/health/treatments/22165-boston-keratoprosthesis-ookp-surgery" },
+                    { title: "How Does 'Tooth-in-Eye' Surgery Work?", url: "https://www.google.com/search?q=how+does+tooth+in+eye+surgery+work" }
+                ],
+                "Culture & History": [
+                    { title: "Ruby Bridges Foundation", url: "https://rubybridges.com/" },
+                    { title: "Guinness World Records: Tallest Sunflower", url: "https://www.guinnessworldrecords.com/search?term=tallest%20sunflower" }
+                ]
+            };
+            
+            const flashcardContainer = document.getElementById('flashcard-container');
+            vocabularyData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'flashcard perspective-[1000px] h-36 cursor-pointer';
+                card.innerHTML = `
+                    <div class="flashcard-inner relative w-full h-full text-center">
+                        <div class="flashcard-front absolute w-full h-full bg-white rounded-lg shadow-md flex items-center justify-center p-2">
+                            <h5 class="font-bold text-stone-800">${item.term}</h5>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full bg-amber-100 rounded-lg shadow-md flex flex-col justify-center p-3 text-sm">
+                            <p class="text-stone-700 font-semibold">${item.translation}</p>
+                            <p class="text-stone-600 mt-2 italic">"${item.example}"</p>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+                flashcardContainer.appendChild(card);
+            });
+
+            const sentenceContainer = document.getElementById('sentence-container');
+            sentenceData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'sentence-item';
+                div.innerHTML = `<p class="text-stone-700 leading-relaxed">${item.sentence}</p><div class="tip-box hidden mt-2 p-3 bg-amber-50 text-amber-800 rounded-lg text-sm border border-amber-200"></div>`;
+                sentenceContainer.appendChild(div);
+            });
+            
+            sentenceContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('sentence-highlight')) {
+                    const tip = e.target.dataset.tip;
+                    const tipBox = e.target.closest('.sentence-item').querySelector('.tip-box');
+                    if (tipBox.classList.contains('hidden') || tipBox.textContent !== tip) {
+                        tipBox.textContent = tip;
+                        tipBox.classList.remove('hidden');
+                    } else {
+                        tipBox.classList.add('hidden');
+                    }
+                }
+            });
+
+            const readingContainer = document.getElementById('reading-container');
+            Object.keys(readingData).forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'bg-white p-6 rounded-xl shadow-md';
+                let linksHTML = `<h4 class="font-bold text-lg mb-4 text-stone-900">${category}</h4><div class="space-y-3">`;
+                readingData[category].forEach(link => {
+                    linksHTML += `
+                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="block bg-stone-50 hover:bg-amber-100 text-stone-700 hover:text-amber-800 p-3 rounded-lg transition-colors">
+                            ${link.title}
+                        </a>
+                    `;
+                });
+                linksHTML += `</div>`;
+                categoryDiv.innerHTML = linksHTML;
+                readingContainer.appendChild(categoryDiv);
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

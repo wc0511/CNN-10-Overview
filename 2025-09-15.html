@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNN 10 Interactive Analysis | September 15, 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A thematic, single-page vertical scrolling application was chosen for its intuitive user flow. It starts with a high-level overview of the news topics, allowing users to grasp the main points quickly. It then progressively deepens the content with interactive sections for Vocabulary, Sentence Analysis, and Further Reading. This structure supports both linear learning (scrolling through) and topic-based exploration (using the sticky navigation). Key interactions like flashcards and clickable sentence tips are designed to make learning active rather than passive, which is ideal for the target user (an English learner). -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Data on climate change and extreme weather. Goal: Show a progression or trend. Viz/Method: Line Chart (Chart.js). Interaction: Tooltip on hover. Justification: A line chart is ideal for visualizing data over time, making trends in extreme weather events clear and memorable.
+        - Report Info: Vocabulary list. Goal: Organize for memorization. Viz/Method: Interactive Flashcards (HTML/CSS/JS). Interaction: Click to flip. Justification: This transforms a passive list into an active learning tool, mimicking a proven study method.
+        - Report Info: Challenging sentences. Goal: Organize and explain complex grammar. Viz/Method: Annotated Text (HTML/CSS/JS). Interaction: Click on highlighted phrases to reveal tips. Justification: This provides contextual, on-demand explanations without cluttering the initial view.
+        - All other textual content from the report is organized into styled cards and sections for readability.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+        }
+        .nav-link.active {
+            color: #D97706; /* amber-600 */
+            font-weight: 700;
+        }
+        .flashcard-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .sentence-highlight {
+            cursor: pointer;
+            border-bottom: 2px dotted #D97706; /* amber-600 */
+            font-weight: 500;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold text-stone-900">CNN 10 Overview</h1>
+                <div class="hidden md:flex space-x-8 text-stone-600">
+                    <a href="#hero" class="nav-link hover:text-amber-600 transition-colors">Today's Video</a>
+                    <a href="#topics" class="nav-link hover:text-amber-600 transition-colors">Key Topics</a>
+                    <a href="#vocabulary" class="nav-link hover:text-amber-600 transition-colors">Vocabulary Builder</a>
+                    <a href="#sentences" class="nav-link hover:text-amber-600 transition-colors">Sentence Breakdown</a>
+                    <a href="#explore" class="nav-link hover:text-amber-600 transition-colors">Explore More</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="hero" class="text-center mb-12 md:mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-2 text-stone-900">Today's Video</h2>
+            <p class="text-lg md:text-xl text-stone-600 mb-6">September 15, 2025</p>
+            <div class="video-container max-w-4xl mx-auto mb-10">
+                <iframe src="https://www.youtube.com/embed/BQnxU_aAkTg" title="CNN 10 September 15, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="topics" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Key Topics</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">This section provides a quick overview of the main stories from today's CNN 10 episode. Each card summarizes a key topic, giving you a fast glimpse into the day's news, from international relations to technological innovation.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h4 class="font-bold text-lg mb-2">Preserving Indigenous Languages</h4>
+                    <p class="text-sm text-stone-600">A young woman created a robot called the "Scobot" to help children learn indigenous languages using live translation. The Scobot uses AI speech recognition with pre-recorded audio from the community to teach native words.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">🦖</div>
+                    <h4 class="font-bold text-lg mb-2">Paleontology Discovery</h4>
+                    <p class="text-sm text-stone-600">Scientists in Argentina unearthed the most complete skeleton to date of an extinct apex predator called the "Costan Sucus Atrox," a Cretaceous-era crocodile. This hypercarnivore preyed on dinosaurs nearly 70 million years ago.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">🚌</div>
+                    <h4 class="font-bold text-lg mb-2">Revolutionizing School Transportation</h4>
+                    <p class="text-sm text-stone-600">A company is introducing electric school buses that are quieter, benefiting students with special needs. These buses can also act as "giant portable batteries" that can be plugged into the power grid to provide energy to homes.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-4xl mb-4">✈️</div>
+                    <h4 class="font-bold text-lg mb-2">Aviation Careers</h4>
+                    <p class="text-sm text-stone-600">A nonprofit in Nebraska is helping young adults explore careers in aviation through a hands-on "aviation STEM day." The event aims to attract young people to the aviation field due to an accelerating number of retirements.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="vocabulary" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Vocabulary Builder</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Enhance your vocabulary with these key terms from the video. Click on each card to flip it and reveal the definition, English meaning, and an example sentence. This interactive method helps reinforce your learning.</p>
+            <div id="flashcard-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            </div>
+        </section>
+
+        <section id="sentences" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Sentence Breakdown</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Some sentences in the video might be fast or complex. Here, we break them down for you. Click on the <span class="sentence-highlight">highlighted phrases</span> to see a helpful tip or explanation to better understand the structure and meaning.</p>
+            <div id="sentence-container" class="space-y-6 bg-white p-6 rounded-xl shadow-md">
+            </div>
+        </section>
+
+        <section id="explore" class="mb-12 md:mb-16">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Explore More</h3>
+            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Ready to dive deeper? These curated links provide more information on the topics discussed in the video. Expand your knowledge and practice your reading skills with these external resources.</p>
+            <div id="reading-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-6 text-stone-500 text-sm">
+        <p>This interactive report was generated to enhance the CNN 10 learning experience.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const vocabularyData = [
+                { term: "Scobot", definition: "An interactive robot that helps children learn indigenous languages using live translation.", translation: "語言機器人", example: "The Scobot was created to preserve native languages." },
+                { term: "Costan Sucus Atrox", definition: "The name of a large, extinct Cretaceous-era crocodile.", translation: "滅絕的白堊紀鱷魚", example: "The skeleton of the Costan Sucus Atrox was the most complete found to date." },
+                { term: "Hypercarnivore", definition: "An animal whose diet consists of more than 70% meat.", translation: "超肉食性動物", example: "The Costan Sucus Atrox was a hypercarnivore that preyed on dinosaurs." },
+                { term: "Zoom", definition: "A company that is reinventing the school bus with smarter routes and electric vehicles.", translation: "一家開發電動校車的公司", example: "Zoom's electric buses are much quieter than traditional ones." },
+                { term: "Aviation STEM Day", definition: "An event providing young adults with hands-on aviation experiences to explore career opportunities.", translation: "航空科學、技術、工程及數學日", example: "The Aviation STEM Day aims to attract more young people to the field." }
+            ];
+
+            const sentenceData = [
+                { sentence: "One young woman who belongs to an indigenous community in Michigan is <span class='sentence-highlight' data-tip='This means she is proactively doing something to solve a problem on her own, rather than waiting for someone else to do it.'>taking matters into her own hands</span> inventing a language robot inspired by none other than an Elmo toy." },
+                { sentence: "Researchers now hope to <span class='sentence-highlight' data-tip='This means scientists are trying to get information from the preserved teeth, like chemical or environmental data, to understand the ancient reptile better.'>recover isotope information from the fossilized teeth</span> in order to learn more about the remarkable reptile." },
+                { sentence: "By trying to solve one problem she ended up solving all kinds of other problems since there is a national shortage of bus drivers smarter routes make the most of everybody and the extra juice saved gets used after school because these aren't just buses <span class='sentence-highlight' data-tip='This means the buses are multi-functional; they can store energy and provide power to homes, in addition to being a form of transportation.'>they are giant portable batteries</span>." }
+            ];
+
+            const readingData = {
+                "Science & Technology": [
+                    { title: "AI in Language Preservation", url: "https://www.google.com/search?q=AI+indigenous+language+preservation" },
+                    { title: "Understanding Paleontology", url: "https://www.nationalgeographic.com/science/paleontology/" }
+                ],
+                "Education & Environment": [
+                    { title: "Electric School Buses as Power Grids", url: "https://www.google.com/search?q=electric+school+buses+power+grid" },
+                    { title: "Careers in Aviation", url: "https://www.faa.gov/education/student-resources/careers-aviation" }
+                ],
+                "Community & History": [
+                    { title: "Indigenous Communities in Michigan", url: "https://www.google.com/search?q=indigenous+communities+michigan" },
+                    { title: "What is a Hypercarnivore?", url: "https://www.google.com/search?q=what+is+a+hypercarnivore" }
+                ]
+            };
+            
+            const flashcardContainer = document.getElementById('flashcard-container');
+            vocabularyData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'flashcard perspective-[1000px] h-36 cursor-pointer';
+                card.innerHTML = `
+                    <div class="flashcard-inner relative w-full h-full text-center">
+                        <div class="flashcard-front absolute w-full h-full bg-white rounded-lg shadow-md flex items-center justify-center p-2">
+                            <h5 class="font-bold text-stone-800">${item.term}</h5>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full bg-amber-100 rounded-lg shadow-md flex flex-col justify-center p-3 text-sm">
+                            <p class="text-stone-700 font-semibold">${item.translation}</p>
+                            <p class="text-stone-600 mt-2 italic">"${item.example}"</p>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+                flashcardContainer.appendChild(card);
+            });
+
+            const sentenceContainer = document.getElementById('sentence-container');
+            sentenceData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'sentence-item';
+                div.innerHTML = `<p class="text-stone-700 leading-relaxed">${item.sentence}</p><div class="tip-box hidden mt-2 p-3 bg-amber-50 text-amber-800 rounded-lg text-sm border border-amber-200"></div>`;
+                sentenceContainer.appendChild(div);
+            });
+            
+            sentenceContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('sentence-highlight')) {
+                    const tip = e.target.dataset.tip;
+                    const tipBox = e.target.closest('.sentence-item').querySelector('.tip-box');
+                    if (tipBox.classList.contains('hidden') || tipBox.textContent !== tip) {
+                        tipBox.textContent = tip;
+                        tipBox.classList.remove('hidden');
+                    } else {
+                        tipBox.classList.add('hidden');
+                    }
+                }
+            });
+
+            const readingContainer = document.getElementById('reading-container');
+            Object.keys(readingData).forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'bg-white p-6 rounded-xl shadow-md';
+                let linksHTML = `<h4 class="font-bold text-lg mb-4 text-stone-900">${category}</h4><div class="space-y-3">`;
+                readingData[category].forEach(link => {
+                    linksHTML += `
+                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="block bg-stone-50 hover:bg-amber-100 text-stone-700 hover:text-amber-800 p-3 rounded-lg transition-colors">
+                            ${link.title}
+                        </a>
+                    `;
+                });
+                linksHTML += `</div>`;
+                categoryDiv.innerHTML = linksHTML;
+                readingContainer.appendChild(categoryDiv);
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
