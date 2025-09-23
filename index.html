@@ -66,25 +66,30 @@
             <h1 class="text-3xl md:text-4xl font-bold mb-2 text-stone-900">CNN 10 快速導讀</h1>
             <p class="text-lg text-stone-700">每天十分鐘，英文好輕鬆！</p>
         </div>
+        
         <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center max-w-2xl mx-auto mt-8">
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-stone-900">最新導讀</h2>
-            <!-- This entire anchor tag will be the clickable card -->
-            <a id="latest-guide-link" href="#" class="block hover:shadow-lg transition-shadow rounded-lg overflow-hidden">
-                <div class="bg-stone-100 rounded-lg p-4">
-                    <img id="latest-guide-thumbnail" class="rounded-lg w-full mb-4" src="https://placehold.co/600x337/E4E4E7/292524?text=Loading..." alt="最新導讀影片封面">
-                    <h3 id="latest-guide-title" class="text-xl md:text-2xl font-bold text-stone-900 mb-2">
-                        Loading...
-                    </h3>
-                </div>
-            </a>
+            <div id="latest-guide-card" class="bg-stone-100 rounded-lg p-4">
+                <a id="latest-guide-link" href="#" class="block hover:shadow-lg transition-shadow rounded-lg overflow-hidden">
+                    <img id="latest-guide-thumbnail" class="rounded-lg w-full mb-4" src="https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=Loading..." alt="最新導讀影片封面">
+                </a>
+                <h3 id="latest-guide-title" class="text-xl md:text-2xl font-bold text-stone-900 mb-2">
+                    Loading...
+                </h3>
+                <a id="watch-video-btn" href="#" class="inline-block bg-amber-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg button mt-4" target="_blank" rel="noopener noreferrer">
+                    觀看影片
+                </a>
+            </div>
             <p class="text-stone-500 text-sm mt-4">此內容會在每天凌晨 00:00 更新</p>
         </div>
+        
         <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center max-w-2xl mx-auto mt-8">
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-stone-900">近期導讀</h2>
             <div id="recent-readings-list" class="flex flex-col space-y-4 text-left">
                 <!-- Content will be dynamically added here -->
             </div>
         </div>
+        
         <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center max-w-2xl mx-auto mt-8">
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-stone-900">電子郵件訂閱</h2>
             <p class="text-stone-700 mb-4">輸入您的電子郵件，以接收每日導讀內容。</p>
@@ -94,6 +99,7 @@
             </div>
             <p id="subscriptionStatus" class="mt-4 text-sm text-green-600"></p>
         </div>
+        
         <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center max-w-2xl mx-auto mt-8">
             <h2 class="text-2xl md:text-3xl font-bold mb-4 text-stone-900">RSS 訂閱</h2>
             <p class="text-stone-700 mb-4">複製下方 RSS 網址，在您的閱讀器中訂閱最新內容。</p>
@@ -118,11 +124,10 @@
             return `${year}-${month}-${day}`;
         }
 
-        // Function to fetch and display the topic from a file
-        async function fetchTopic(date) {
+        // Function to fetch the topic and video URL from a daily file
+        async function fetchGuideData(date) {
             const formattedDate = formatDate(date);
             const fileName = `${formattedDate}.html`;
-            // Construct a full URL to prevent the 'Failed to parse URL' error
             const fileUrl = window.location.origin + window.location.pathname.replace('index.html', '') + fileName;
             try {
                 const response = await fetch(fileUrl);
@@ -130,17 +135,21 @@
                     const htmlText = await response.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(htmlText, 'text/html');
-                    const titleElement = doc.querySelector('title');
-                    // The topic is assumed to be part of the title
-                    const fullTitle = titleElement ? titleElement.textContent : '';
-                    // Extract the topic part, assuming it's after the pipe
-                    const topic = fullTitle.includes('|') ? fullTitle.split('|')[1].trim() : fullTitle;
-                    return topic;
+
+                    // Assumption: The topic is in an h2 tag with the class 'report-topic' in the daily report file.
+                    // If you change the class in your daily files, you'll need to update this line.
+                    const topicElement = doc.querySelector('h2.report-topic');
+                    const topic = topicElement ? topicElement.textContent.trim() : 'N/A';
+                    
+                    // Assumption: The video URL is in a meta tag or link tag.
+                    const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
+                    
+                    return { topic, videoLink };
                 }
             } catch (error) {
-                console.error(`Error fetching topic for ${fileName}:`, error);
+                console.error(`Error fetching guide data for ${fileName}:`, error);
             }
-            return 'N/A';
+            return { topic: 'N/A', videoLink: '#' };
         }
 
         // Function to get the last 7 non-weekend days
@@ -161,24 +170,30 @@
 
         // Main function to update content
         async function updateContent() {
-            // Get today's topic
+            // Get today's guide data
             const today = new Date();
-            const latestTopic = await fetchTopic(today);
+            const { topic: latestTopic, videoLink: latestVideoLink } = await fetchGuideData(today);
             const latestGuideLink = document.getElementById('latest-guide-link');
             const latestGuideThumbnail = document.getElementById('latest-guide-thumbnail');
             const latestGuideTitle = document.getElementById('latest-guide-title');
+            const watchVideoBtn = document.getElementById('watch-video-btn');
 
             if (latestTopic && latestTopic !== 'N/A') {
                 const formattedDate = formatDate(today);
-                latestGuideLink.href = `${formattedDate}.html`;
-                latestGuideThumbnail.src = `https://placehold.co/600x337/E4E4E7/292524?text=${encodeURIComponent(latestTopic)}`;
+                const fileUrl = `${formattedDate}.html`;
+                
+                latestGuideLink.href = fileUrl;
+                latestGuideThumbnail.src = `https://placehold.co/600x337/312e81/fff?font=noto-sans-tc&text=${encodeURIComponent(latestTopic)}`;
                 latestGuideThumbnail.alt = latestTopic;
                 latestGuideTitle.textContent = latestTopic;
+                watchVideoBtn.href = latestVideoLink;
+                
             } else {
                 latestGuideLink.href = '#';
-                latestGuideThumbnail.src = `https://placehold.co/600x337/E4E4E7/292524?text=${encodeURIComponent('No Topic Today')}`;
+                latestGuideThumbnail.src = `https://placehold.co/600x337/E4E4E7/292524?text=${encodeURIComponent('今日無導讀內容')}`;
                 latestGuideThumbnail.alt = 'No topic available';
                 latestGuideTitle.textContent = '今日無導讀內容';
+                watchVideoBtn.style.display = 'none';
             }
 
             // Get recent readings
@@ -186,7 +201,7 @@
             recentReadingsList.innerHTML = ''; // Clear previous list
             const recentDates = getLastSevenWeekdays();
             for (const date of recentDates) {
-                const topic = await fetchTopic(date);
+                const { topic, videoLink } = await fetchGuideData(date);
                 if (topic && topic !== 'N/A') {
                     const formattedDate = formatDate(date);
                     const fileUrl = `${formattedDate}.html`;
@@ -243,6 +258,7 @@
 
             copyRssBtn.addEventListener('click', async () => {
                 try {
+                    // Use a more modern way to copy text
                     await navigator.clipboard.writeText(rssUrlInput.value);
                     copyStatus.textContent = '網址已複製！';
                     copyStatus.classList.remove('text-red-600');
