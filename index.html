@@ -137,9 +137,10 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                const topicElement = doc.querySelector('h3.report-topic');
+                const topicElement = doc.querySelector('h2.report-topic');
                 const topic = topicElement ? topicElement.textContent.trim() : '無主題資料';
                 
+                // 獲取原始影片連結
                 const videoLink = doc.querySelector('link[rel="canonical"]')?.href || '#';
                 
                 return { topic, videoLink, status: 'success' };
@@ -151,7 +152,7 @@
 
         function getLastSevenWeekdays() {
             const dates = [];
-            let daysAgo = 0;
+            let daysAgo = 1; // 從昨天開始
             const today = new Date();
             while (dates.length < 7) {
                 const d = new Date(today);
