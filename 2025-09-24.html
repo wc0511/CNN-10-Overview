@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNN 10 Interactive Analysis | September 22, 2025</title>
+    <title>CNN 10 Interactive Analysis | September 24, 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -175,9 +175,9 @@
 
         <section id="hero" class="text-center mb-12 md:mb-16 scroll-target">
             <h2 class="text-3xl md:text-5xl font-bold mb-2 text-stone-900">Today's Video</h2>
-            <p class="text-lg md:text-xl text-stone-600 mb-6">September 22, 2025</p>
+            <p class="text-lg md:text-xl text-stone-600 mb-6">September 24, 2025</p>
             <div class="video-container max-w-4xl mx-auto mb-10">
-                <iframe src="https://www.youtube.com/embed/gPnrSloKpAo" title="CNN 10 September 22, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/7eoKTXwVqIo" title="CNN 10 September 24, 2025" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
@@ -217,63 +217,63 @@
         document.addEventListener('DOMContentLoaded', () => {
             const topicData = [
                 {
-                    title: "U.S. National Parks",
-                    content: "The National Park Service is celebrating its 100th anniversary. The report highlights the importance of national parks for environmental conservation and their role in protecting America's natural heritage.",
-                    translation_title: "美國國家公園",
-                    translation_content: "國家公園管理局正在慶祝其成立100週年。報導強調了國家公園對於環境保護的重要性，以及它們在保護美國自然遺產方面的作用。"
+                    title: "NASA's New Astronauts",
+                    content: "NASA selected 10 new astronauts from 8,000 applicants for future missions to the Moon and Mars. This is the first class with more women than men. They will undergo two years of training.",
+                    translation_title: "NASA 的新太空人",
+                    translation_content: "NASA 從 8,000 名申請者中選出了 10 名新太空人，以執行未來前往月球和火星的任務。這是第一批女性人數多於男性的太空人，他們將接受為期兩年的訓練。"
                 },
                 {
-                    title: "Solar Power in India",
-                    content: "India is making a major push toward renewable energy, with a new solar power initiative aiming to drastically reduce the nation's carbon footprint and provide clean energy to millions.",
-                    translation_title: "印度的太陽能發電",
-                    translation_content: "印度正在大力推動再生能源，一項新的太陽能計畫旨在大幅減少該國的碳足跡，並為數百萬人提供潔淨能源。"
+                    title: "Artemis 2 Mission",
+                    content: "NASA provided details on the Artemis 2 mission, a 10-day test flight to orbit the Moon. The mission will test the spacecraft and equipment, with the launch scheduled for no later than April 2026.",
+                    translation_title: "阿爾忒彌斯2號任務",
+                    translation_content: "NASA 公布了阿爾忒彌斯2號任務的細節，這是一次為期 10 天繞月飛行的測試。該任務將測試太空船和設備，計畫不晚於 2026 年 4 月發射。"
                 },
                 {
-                    title: "Ancient Roman Discovery",
-                    content: "Archaeologists in Italy have uncovered an untouched, well-preserved Roman villa. The find provides an unprecedented look into the daily lives of wealthy Romans during the era of the Roman Empire.",
-                    translation_title: "古羅馬發現",
-                    translation_content: "意大利的考古學家發現了一座未受打擾、保存完好的羅馬別墅。這項發現為了解羅馬帝國時期富裕羅馬人的日常生活提供了前所未有的視角。"
+                    title: "FireSat Satellites",
+                    content: "A new fleet of over 50 satellites, FireSat, is being developed to monitor wildfires globally. These satellites will provide near-real-time data to fire responders, using AI to process the large amount of information.",
+                    translation_title: "FireSat 衛星",
+                    translation_content: "一支由超過 50 顆衛星組成的 FireSat 新艦隊正在開發中，旨在全球監測野火。這些衛星將使用人工智慧處理大量資訊，向消防人員提供近乎即時的數據。"
                 }
             ];
 
             const vocabularyData = [
-                { term: "Conservation", definition: "The act of protecting and preserving something, especially from environmental damage.", translation: "保護", example: "Environmental conservation is a global priority." },
-                { term: "Renewable energy", definition: "Energy from a source that is not depleted when used, such as wind or solar power.", translation: "再生能源", example: "Many countries are investing in renewable energy." },
-                { term: "Archaeologist", definition: "A person who studies human history and prehistory through the excavation of sites and the analysis of artifacts.", translation: "考古學家", example: "The archaeologist spent years excavating the site." },
-                { term: "Carbon footprint", definition: "The amount of carbon dioxide and other carbon compounds emitted due to the consumption of fossil fuels.", translation: "碳足跡", example: "Reducing your carbon footprint helps fight climate change." },
-                { term: "Preservation", definition: "The action of preserving something; the state of being preserved.", translation: "保存", example: "The building's preservation is essential for the city's history." }
+                { term: "Astronaut", definition: "A person who is trained to travel in a spacecraft.", translation: "太空人", example: "The astronaut successfully completed a spacewalk." },
+                { term: "Decommissioning", definition: "The process of taking a system or facility out of service.", translation: "退役", example: "The old power plant is scheduled for decommissioning next year." },
+                { term: "Fleet", definition: "A group of vehicles or vessels, such as satellites or ships, operating under one command.", translation: "艦隊", example: "A fleet of fishing boats sailed out to sea." },
+                { term: "Monitor", definition: "To watch, observe, or check something over a period of time.", translation: "監測", example: "They will monitor the patient's heart rate." },
+                { term: "Proceeds", definition: "The money obtained from an event or activity.", translation: "收益", example: "All proceeds from the concert will go to charity." }
             ];
 
             const sentenceData = [
                 {
-                    timestamp: "01:45",
-                    sentence: "The National Park Service has long been hailed as a <span class='sentence-highlight' data-tip='This phrase means it is considered a very successful and admirable example of a system for protecting natural land and wildlife.'>model of land and wildlife preservation</span>, a testament to its mission.",
-                    translation: "國家公園管理局長期以來被譽為<u>土地和野生動物保護的典範</u>，是其使命的證明。"
+                    timestamp: "00:51",
+                    sentence: "This new class is the first in NASA’s history to have more <span class='sentence-highlight' data-tip='This means for the first time, there are more female astronauts than male astronauts in a new group selected by NASA.'>women than men</span>.",
+                    translation: "這是 NASA 歷史上首次在新選出的太空人中，<u>女性人數多於男性</u>。"
                 },
                 {
-                    timestamp: "04:10",
-                    sentence: "This new solar initiative is designed to help India meet its <span class='sentence-highlight' data-tip='This means the country aims to reduce the total amount of greenhouse gases it releases, particularly by a specific target amount or percentage.'>carbon emission reduction goals</span> and transition away from fossil fuels.",
-                    translation: "這項新的太陽能計畫旨在幫助印度達成其<u>碳排放減量目標</u>，並逐步擺脫化石燃料。"
+                    timestamp: "03:00",
+                    sentence: "The crew will fly more than 5,000 nautical miles past the Moon, making it appear <span class='sentence-highlight' data-tip='This means that because they are flying so far past the Moon, it will look smaller to them than it has looked on previous flybys.'>smaller than in previous flybys</span>.",
+                    translation: "太空船將飛越月球 5,000 多海里，使其看起來<u>比以往的飛掠任務更小</u>。"
                 },
                 {
-                    timestamp: "07:35",
-                    sentence: "The discovery of an <span class='sentence-highlight' data-tip='This means the villa was found in its original, undamaged condition, as if it was perfectly preserved in a time capsule, untouched for thousands of years.'>intact and undisturbed Roman villa</span> provides an unprecedented look into daily life of that era.",
-                    translation: "發現一座<u>完好無損且未受打擾的羅馬別墅</u>，為了解該時代的日常生活提供了前所未有的視角。"
+                    timestamp: "08:44",
+                    sentence: "A teenager from Pennsylvania and his father built a haunted house in their basement, and <span class='sentence-highlight' data-tip='This means that all the money they collect from people who pay to enter the haunted house will be donated to a non-profit organization.'>all proceeds go to a non-profit</span>.",
+                    translation: "一位來自賓州的青少年和他的父親在自家地下室建造了一間鬼屋，<u>所有收益都捐給一家非營利組織</u>。"
                 }
             ];
 
             const readingData = {
                 "World News": [
-                    { title: "India solar power initiatives 2025", url: "https://www.google.com/search?q=India+solar+power+initiatives+2025" },
-                    { title: "Global climate change targets", url: "https://www.google.com/search?q=Global+climate+change+targets" }
+                    { title: "Typhoon Regaza latest news", url: "https://www.google.com/search?q=Typhoon+Regaza+latest+news" },
+                    { title: "The International Space Station’s future", url: "https://www.google.com/search?q=The+International+Space+Station’s+future" }
                 ],
                 "Health & Science": [
-                    { title: "US National Park Service 100th anniversary", url: "https://www.google.com/search?q=US+National+Park+Service+100th+anniversary" },
-                    { title: "Archaeological discoveries in Rome", url: "https://www.google.com/search?q=archaeological+discoveries+in+Rome" }
+                    { title: "NASA Artemis missions explained", url: "https://www.google.com/search?q=NASA+Artemis+missions+explained" },
+                    { title: "AI technology in wildfire detection", url: "https://www.google.com/search?q=AI+technology+in+wildfire+detection" }
                 ],
                 "Culture & Entertainment": [
-                    { title: "History of Roman villas", url: "https://www.google.com/search?q=History+of+Roman+villas" },
-                    { title: "Significance of national parks", url: "https://www.google.com/search?q=Significance+of+national+parks" }
+                    { title: "Bill Nye Hollywood Walk of Fame", url: "https://www.google.com/search?q=Bill+Nye+Hollywood+Walk+of+Fame" },
+                    { title: "Teenage charity fundraisers", url: "https://www.google.com/search?q=Teenage+charity+fundraisers" }
                 ]
             };
             
@@ -287,7 +287,7 @@
                         frontContent += `<div class="absolute top-4 left-4"><span class="timestamp">${item.timestamp}</span></div>`;
                     }
                     frontContent += `${item.term ? `<h5 class="font-bold text-stone-800">${item.term}</h5>` : ''}
-                                ${item.title ? `<div class="text-4xl mb-4">${item.title.includes('Parks') ? '🏞️' : item.title.includes('Solar') ? '☀️' : item.title.includes('Roman') ? '🏛️' : ''}</div><h4 class="font-bold text-lg mb-2">${item.title}</h4>` : ''}
+                                ${item.title ? `<div class="text-4xl mb-4">${item.title.includes('NASA') ? '🚀' : item.title.includes('Artemis') ? '🌕' : item.title.includes('FireSat') ? '🛰️' : ''}</div><h4 class="font-bold text-lg mb-2">${item.title}</h4>` : ''}
                                 ${item.content ? `<p class="text-sm text-stone-600">${item.content}</p>` : ''}
                                 ${item.sentence ? `<p class="text-stone-700 leading-relaxed mb-0">${item.sentence}</p>` : ''}`;
 
@@ -337,7 +337,6 @@
                     } else if (card.classList.contains('vocabulary-flashcard')) {
                         maxVocabHeight = Math.max(maxVocabHeight, maxHeight);
                     } else {
-                        // For sentence cards, we want both sides to be the same height.
                         card.style.height = `${maxHeight}px`;
                     }
                 });

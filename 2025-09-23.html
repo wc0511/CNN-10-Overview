@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
     <!-- Application Structure Plan: A thematic, single-page vertical scrolling application was chosen for its intuitive user flow. It starts with a high-level overview of the news topics, allowing users to grasp the main points quickly. It then progressively deepens the content with interactive sections for Vocabulary, Sentence Analysis, and Further Reading. This structure supports both linear learning (scrolling through) and topic-based exploration (using the sticky navigation). Key interactions like flashcards and clickable sentence tips are designed to make learning active rather than passive, which is ideal for the target user (an English learner). -->
     <!-- Visualization & Content Choices: 
         - Report Info: Data on climate change and extreme weather. Goal: Show a progression or trend. Viz/Method: Line Chart (Chart.js). Interaction: Tooltip on hover. Justification: A line chart is ideal for visualizing data over time, making trends in extreme weather events clear and memorable.
-        - Report Info: Vocabulary list. Goal: Organize for memorization. Viz/Method: Interactive Flashcards (HTML/CSS/JS). Interaction: Click to flip. Justification: This transforms a passive list into an active learning tool, mimicking a proven study method.
+        - Report Info: Vocabulary list. Goal: Organize for memorization. Viz/Method: Interactive Flashcards (HTML/CSS/JS). Interaction: Click to flip. Justification: This transforms a passive list into an an active learning tool, mimicking a proven study method.
         - Report Info: Challenging sentences. Goal: Organize and explain complex grammar. Viz/Method: Annotated Text (HTML/CSS/JS). Interaction: Click on highlighted phrases to reveal tips. Justification: This provides contextual, on-demand explanations without cluttering the initial view.
         - All other textual content from the report is organized into styled cards and sections for readability.
     -->
@@ -27,24 +27,108 @@
             color: #D97706; /* amber-600 */
             font-weight: 700;
         }
-        .flashcard-inner {
+        
+        /* General card flip container */
+        .card-container {
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            height: auto;
+        }
+        .card-inner {
+            position: relative;
             transition: transform 0.6s;
             transform-style: preserve-3d;
+            width: 100%;
+            height: 100%;
         }
-        .flashcard.flipped .flashcard-inner {
+        .card-container.flipped .card-inner {
             transform: rotateY(180deg);
         }
-        .flashcard-front, .flashcard-back {
+        
+        .card-front, .card-back {
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
         }
-        .flashcard-back {
+        
+        .card-front {
+            transform: rotateY(0deg);
+            background-color: #ffffff;
+        }
+
+        .card-back {
             transform: rotateY(180deg);
+            background-color: #F5E8C7; /* amber-100 */
+        }
+
+        /* Specific styles for different card types */
+        .key-topic-card {
+            min-height: 20rem; /* A bit taller for Key Topics */
+        }
+        .vocabulary-flashcard {
+            min-height: 12rem; /* Shorter for vocabulary */
+        }
+        .sentence-card {
+            min-height: auto; 
+        }
+        .sentence-card .card-front, .sentence-card .card-back {
+            text-align: left;
+            padding: 2rem;
+            justify-content: flex-start; /* 讓內容對齊頂部 */
+            position: relative;
+        }
+        .sentence-card .card-front p {
+            padding-top: 1rem;
+        }
+        .sentence-card .card-back p {
+            padding-top: 1rem;
         }
         .sentence-highlight {
             cursor: pointer;
             border-bottom: 2px dotted #D97706; /* amber-600 */
             font-weight: 500;
+        }
+        
+        /* 註解區塊樣式 */
+        .tip-content {
+            display: none;
+            position: absolute;
+            z-index: 20; /* 增加 z-index 確保在最上層 */
+            padding: 1rem;
+            background-color: #FFFBEA; /* amber-50 */
+            border: 1px dashed #F59E0B; /* amber-500 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            color: #78350F; /* amber-900 */
+            font-style: italic;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+        }
+        
+        .sentence-card {
+            transition: height 0.3s ease-out;
+            position: relative; 
+        }
+        .timestamp {
+            display: inline-block;
+            font-size: 0.875rem; /* text-sm */
+            color: #78716C; /* stone-500 */
+            background-color: #E7E5E4; /* stone-200 */
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px; /* rounded-full */
+            margin-bottom: 0.5rem;
         }
         .video-container {
             position: relative;
@@ -61,6 +145,13 @@
             width: 100%;
             height: 100%;
         }
+
+        /* Adjustments for sticky header */
+        .scroll-target {
+            scroll-margin-top: 80px; /* Adjust this value to be slightly larger than the header's height */
+            padding-top: 100px;
+            margin-top: -100px;
+        }
     </style>
 </head>
 <body class="text-stone-800">
@@ -68,7 +159,7 @@
     <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-3">
             <div class="flex justify-between items-center">
-                <h1 class="text-xl md:text-2xl font-bold text-stone-900">CNN 10 Overview</h1>
+                <a href="#hero" class="text-xl md:text-2xl font-bold text-stone-900">CNN 10 Overview</a>
                 <div class="hidden md:flex space-x-8 text-stone-600">
                     <a href="#hero" class="nav-link hover:text-amber-600 transition-colors">Today's Video</a>
                     <a href="#topics" class="nav-link hover:text-amber-600 transition-colors">Key Topics</a>
@@ -82,7 +173,7 @@
 
     <main class="container mx-auto px-6 py-8 md:py-12">
 
-        <section id="hero" class="text-center mb-12 md:mb-16">
+        <section id="hero" class="text-center mb-12 md:mb-16 scroll-target">
             <h2 class="text-3xl md:text-5xl font-bold mb-2 text-stone-900">Today's Video</h2>
             <p class="text-lg md:text-xl text-stone-600 mb-6">September 23, 2025</p>
             <div class="video-container max-w-4xl mx-auto mb-10">
@@ -90,58 +181,29 @@
             </div>
         </section>
 
-        <section id="topics" class="mb-12 md:mb-16">
+        <section id="topics" class="mb-12 md:mb-16 scroll-target">
             <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Key Topics</h3>
-            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">This section provides a quick overview of the main stories covered in today's CNN 10 episode. Each card summarizes a key topic, offering a glimpse into the day's news from science and culture to social issues and human interest stories.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">🌡️</div>
-                    <h4 class="report-topic font-bold text-lg mb-2">Climate Change in the Arctic</h4>
-                    <p class="text-sm text-stone-600">The segment covers the rapid melting of sea ice and its effects on global weather patterns and the ecosystem.</p>
-                </div>
-                
-                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">🪖</div>
-                    <h4 class="report-topic font-bold text-lg mb-2">Ukraine's Military Strategy</h4>
-                    <p class="text-sm text-stone-600">An analysis of Ukraine's defensive and offensive military tactics against Russia's ongoing invasion, focusing on recent developments.</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                     <div class="chart-container relative w-full max-w-xs mx-auto h-48 mb-4">
-                        <canvas id="weatherEventsChart"></canvas>
-                    </div>
-                    <h4 class="report-topic font-bold text-lg mb-2">Extreme Weather Events</h4>
-                    <p class="text-sm text-stone-600">A look at the increase in the frequency and intensity of hurricanes, floods, and droughts globally, with data from the last decade.</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                    <div class="text-4xl mb-4">🎨</div>
-                    <h4 class="report-topic font-bold text-lg mb-2">New Museum in Paris</h4>
-                    <p class="text-sm text-stone-600">A segment on the opening of a new modern art museum in Paris, highlighting its unique architectural design and collection.</p>
-                </div>
-
+            <div id="topic-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
         </section>
 
-        <section id="vocabulary" class="mb-12 md:mb-16">
+        <section id="vocabulary" class="mb-12 md:mb-16 scroll-target">
             <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Vocabulary Builder</h3>
-            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Enhance your vocabulary with these key terms from the video. Click on each card to flip it and reveal the definition, Chinese translation, and an example sentence. This interactive method helps reinforce your learning.</p>
             <div id="flashcard-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
             </div>
         </section>
 
-        <section id="sentences" class="mb-12 md:mb-16">
+        <section id="sentences" class="mb-12 md:mb-16 scroll-target">
             <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Sentence Breakdown</h3>
-            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Some sentences in the video might be fast or complex. Here, we break them down for you. Click on the <span class="sentence-highlight">highlighted phrases</span> to see a helpful tip or explanation to better understand the structure and meaning.</p>
-            <div id="sentence-container" class="space-y-6 bg-white p-6 rounded-xl shadow-md">
+            <div id="sentence-container" class="space-y-4">
             </div>
         </section>
 
-        <section id="explore" class="mb-12 md:mb-16">
+        <section id="explore" class="mb-12 md:mb-16 scroll-target">
             <h3 class="text-2xl md:text-3xl font-bold mb-2 text-center text-stone-900">Explore More</h3>
-            <p class="text-stone-600 text-center mb-8 max-w-3xl mx-auto">Ready to dive deeper? These curated links provide more information on the topics discussed in the video. Expand your knowledge and practice your reading skills with these external resources.</p>
-            <div id="reading-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div id="reading-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                </div>
             </div>
         </section>
 
@@ -153,92 +215,195 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const topicData = [
+                {
+                    title: "Super Typhoon Rega",
+                    content: "Super Typhoon Rega, the year's strongest storm, made landfall in the Philippines and is expected to impact Hong Kong, Taiwan, and mainland China. Officials are relocating 400,000 people.",
+                    translation_title: "超級颱風雷加",
+                    translation_content: "今年最強風暴超級颱風雷加在菲律賓登陸，預計將影響香港、台灣和中國大陸。當局正在疏散 40 萬人。"
+                },
+                {
+                    title: "United Nations General Assembly",
+                    content: "The 80th annual UN General Assembly is taking place in New York. The report highlights a recent wave of countries recognizing Palestine as a sovereign state, placing pressure on the United States.",
+                    translation_title: "聯合國大會",
+                    translation_content: "第 80 屆聯合國大會在紐約舉行。報導指出，最近有一波國家承認巴勒斯坦為獨立主權國家，這對美國造成了壓力。"
+                },
+                {
+                    title: "Childhood Malnutrition",
+                    content: "Mana Nutrition, a US nonprofit, creates a therapeutic food from peanut butter and other ingredients to combat childhood malnutrition. Since 2010, it has helped millions of children in 57 countries.",
+                    translation_title: "兒童營養不良",
+                    translation_content: "美國非營利組織 Mana Nutrition 研發了一種由花生醬及其他成分製成的治療性食物，以對抗兒童營養不良。自 2010 年以來，它已幫助了 57 個國家的數百萬兒童。"
+                }
+            ];
 
             const vocabularyData = [
-                { term: "Geopolitical landscape", definition: "The combination of geographic and political factors influencing a country or region.", translation: "地緣政治格局...", example: "The conflict reshaped the geopolitical landscape of the region." },
-                { term: "Unprecedented rate", definition: "A rate that has never been seen or experienced before.", translation: "前所未有的速度...", example: "The glacier is melting at an unprecedented rate." },
-                { term: "Tipping point", definition: "The point at which a series of small changes or incidents becomes significant enough to cause a larger, more important change.", translation: "臨界點...", example: "Scientists believe we are nearing a climate tipping point." },
-                { term: "Counteroffensive", definition: "A large-scale military offensive launched by a force that was previously on the defensive.", translation: "反攻...", example: "The army launched a major counteroffensive to reclaim lost territory." },
-                { term: "Hybrid warfare", definition: "A military strategy that combines conventional, irregular, and cyber warfare.", translation: "混合戰...", example: "The country is facing hybrid warfare tactics from its adversary." },
-                { term: "Stalemate", definition: "A situation in which no one can make progress.", translation: "僵局...", example: "The negotiations reached a stalemate, with neither side willing to compromise." },
-                { term: "Monetary policy", definition: "The actions of a central bank, currency board, or other regulatory committee that determine the size and rate of growth of the money supply...", translation: "貨幣政策...", example: "The government is adjusting its monetary policy to control inflation." },
-                { term: "Inflation", definition: "A general increase in prices and a fall in the purchasing value of money.", translation: "通貨膨脹...", example: "High inflation is a major concern for the economy." },
-                { term: "Infrastructure", definition: "The basic physical and organizational structures and facilities needed for the operation of a society or enterprise.", translation: "基礎設施...", example: "The storm caused significant damage to the city's infrastructure." },
-                { term: "Architectural marvel", definition: "A building or structure that is impressively beautiful, well-designed, or innovative.", translation: "建築奇蹟...", example: "The new opera house is considered an architectural marvel." },
-                { term: "Curated collection", definition: "A selection of items chosen and organized by an expert or specialist.", translation: "策展系列...", example: "The museum's new wing features a curated collection of modern art." },
-                { term: "Renaissance", definition: "A revival of or renewed interest in something.", translation: "文藝復興...", example: "The city is experiencing a cultural renaissance." },
-                { term: "Philanthropist", definition: "A person who seeks to promote the welfare of others, especially by the generous donation of money to good causes.", translation: "慈善家...", example: "The university was built with the help of a generous philanthropist." },
-                { term: "Exhibition", definition: "A public display of works of art or other items.", translation: "展覽...", example: "The exhibition will showcase paintings from the 19th century." }
+                { term: "Landfall", definition: "The point at which a hurricane, typhoon, or other storm crosses from the sea onto land.", translation: "登陸", example: "The storm is expected to make landfall tomorrow." },
+                { term: "Sovereign state", definition: "A political entity represented by one centralized government that has sovereignty over a geographic area.", translation: "主權國家", example: "The country was recognized as a sovereign state." },
+                { term: "Malnutrition", definition: "A condition that results from a diet in which nutrients are either not enough or are too much.", translation: "營養不良", example: "Malnutrition is a serious health issue in many developing countries." },
+                { term: "Relocate", definition: "To move to a new place and establish one's home or business there.", translation: "遷移", example: "The company decided to relocate its headquarters." },
+                { term: "Therapeutic", definition: "Relating to the healing of disease.", translation: "治療性的", example: "The clinic offers a range of therapeutic services." }
             ];
 
             const sentenceData = [
-                { sentence: "Today on CNN 10, we'll discuss the <span class='sentence-highlight' data-tip='This phrase sets the stage, indicating the main topic is the current state of world politics and geography.'>shifting geopolitical landscape</span> in the Arctic as global powers compete for control over the region’s vast natural resources." },
-                { sentence: "The Arctic is warming at an <span class='sentence-highlight' data-tip='This adverb and adjective combo emphasizes the extreme speed of the change.'>unprecedented rate</span>, and this could have catastrophic consequences for global weather patterns." },
-                { sentence: "In other news, Ukraine's military is continuing its <span class='sentence-highlight' data-tip='This noun describes the type of military action, showing a shift from defensive to offensive.'>counteroffensive</span>, employing new tactics to push back against Russian forces." },
-                { sentence: "The new museum in Paris is a true <span class='sentence-highlight' data-tip='This phrase highlights the building’s impressive and innovative design.'>architectural marvel</span>, featuring a unique blend of modern and classical styles." },
-                { sentence: "The exhibition features a <span class='sentence-highlight' data-tip='This adjective indicates that the collection has been carefully chosen and organized by experts, not just a random assortment.'>carefully curated collection</span> of works from the late 20th century." },
-                { sentence: "With the increase in extreme weather events, local governments are now focusing on rebuilding resilient <span class='sentence-highlight' data-tip='This noun refers to the essential systems and structures that support a society, such as roads and power grids.'>infrastructure</span> that can withstand future climate challenges." }
+                {
+                    timestamp: "00:26",
+                    sentence: "Super Typhoon Rega, the strongest storm of the year, made <span class='sentence-highlight' data-tip='This means the storm moved from the ocean onto the land, specifically in the Philippines.'>landfall in the Philippines</span> with winds of over 165 miles per hour.",
+                    translation: "超級颱風雷加，今年最強的風暴，以超過每小時 165 英里的風速在<u>菲律賓登陸</u>。"
+                },
+                {
+                    timestamp: "01:24",
+                    sentence: "The broadcast also covers the 80th annual UN General Assembly in New York, highlighting the recent wave of countries, including France and the UK, <span class='sentence-highlight' data-tip='This means that more and more countries are officially recognizing Palestine as its own country with full political rights, putting pressure on the United States.'>recognizing Palestine as a sovereign state</span>.",
+                    translation: "廣播也報導了在紐約舉行的第 80 屆聯合國大會，強調了包括法國和英國在內的一波國家，<u>承認巴勒斯坦為主權國家</u>。"
+                },
+                {
+                    timestamp: "08:05",
+                    sentence: "In Alaska, zoo veterinarians recently performed a <span class='sentence-highlight' data-tip='This is a medical procedure to fix a broken tooth by removing the damaged pulp, in this case on a 450-pound polar bear.'>root canal on a 450-pound polar bear</span> named Kova.",
+                    translation: "在阿拉斯加，動物園的獸醫最近為一隻名為 Kova、重達 450 磅的北極熊進行了<u>根管治療</u>。"
+                }
             ];
 
             const readingData = {
-                "Climate Change": [
-                    { title: "National Geographic: The Arctic is warming, and that changes everything", url: "https://www.nationalgeographic.com/environment/article/arctic-warming-changes-everything" },
-                    { title: "IPCC: Climate Change 2023 Synthesis Report", url: "https://www.ipcc.ch/report/ar6/syr/" }
+                "World News": [
+                    { title: "Super Typhoon Rega impact analysis", url: "https://www.google.com/search?q=Super+Typhoon+Rega+impact+analysis" },
+                    { title: "UN General Assembly 2025 summary", url: "https://www.google.com/search?q=UN+General+Assembly+2025+summary" }
                 ],
-                "Ukraine War": [
-                    { title: "Council on Foreign Relations: The State of the War in Ukraine", url: "https://www.cfr.org/ukraine" },
-                    { title: "BBC News: Ukraine war: What's the latest in the fight against Russia?", url: "https://www.bbc.com/news/world-60525350" }
+                "Health & Science": [
+                    { title: "Global efforts to combat childhood malnutrition", url: "https://www.google.com/search?q=Global+efforts+to+combat+childhood+malnutrition" },
+                    { title: "Veterinary dental surgery on large animals", url: "https://www.google.com/search?q=Veterinary+dental+surgery+on+large+animals" }
                 ],
-                "Art & Culture": [
-                    { title: "The Louvre Museum Official Website", url: "https://www.louvre.fr/en/" },
-                    { title: "Musée d'Orsay Official Website", url: "https://www.musee-orsay.fr/en" }
-                ],
-                "Economic News": [
-                    { title: "International Monetary Fund: World Economic Outlook", url: "https://www.imf.org/en/Publications/WEO" },
-                    { title: "World Bank: Global Economic Prospects", url: "https://www.worldbank.org/en/publication/global-economic-prospects" }
+                "Culture & Entertainment": [
+                    { title: "History of the Course des Cafes", url: "https://www.google.com/search?q=History+of+the+Course+des+Cafes" },
+                    { title: "Interesting facts about Paris", url: "https://www.google.com/search?q=Interesting+facts+about+Paris" }
                 ]
             };
-
-            const flashcardContainer = document.getElementById('flashcard-container');
-            vocabularyData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'flashcard perspective-[1000px] h-36 cursor-pointer';
-                card.innerHTML = `
-                    <div class="flashcard-inner relative w-full h-full text-center">
-                        <div class="flashcard-front absolute w-full h-full bg-white rounded-lg shadow-md flex items-center justify-center p-2">
-                            <h5 class="font-bold text-stone-800">${item.term}</h5>
-                        </div>
-                        <div class="flashcard-back absolute w-full h-full bg-amber-100 rounded-lg shadow-md flex flex-col justify-center p-3 text-sm">
-                            <p class="text-stone-700 font-semibold">${item.translation}</p>
-                            <p class="text-stone-600 mt-2 italic">"${item.example}"</p>
-                        </div>
-                    </div>
-                `;
-                card.addEventListener('click', () => {
-                    card.classList.toggle('flipped');
-                });
-                flashcardContainer.appendChild(card);
-            });
-
-            const sentenceContainer = document.getElementById('sentence-container');
-            sentenceData.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'sentence-item';
-                div.innerHTML = `<p class="text-stone-700 leading-relaxed">${item.sentence}</p><div class="tip-box hidden mt-2 p-3 bg-amber-50 text-amber-800 rounded-lg text-sm border border-amber-200"></div>`;
-                sentenceContainer.appendChild(div);
-            });
             
-            sentenceContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('sentence-highlight')) {
-                    const tip = e.target.dataset.tip;
-                    const tipBox = e.target.closest('.sentence-item').querySelector('.tip-box');
-                    if (tipBox.classList.contains('hidden') || tipBox.textContent !== tip) {
-                        tipBox.textContent = tip;
-                        tipBox.classList.remove('hidden');
-                    } else {
-                        tipBox.classList.add('hidden');
+            function createCards(data, containerId, cardClass) {
+                const container = document.getElementById(containerId);
+                data.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = `card-container ${cardClass} rounded-xl shadow-md overflow-hidden bg-white`;
+                    let frontContent = '';
+                    if (item.timestamp) {
+                        frontContent += `<div class="absolute top-4 left-4"><span class="timestamp">${item.timestamp}</span></div>`;
                     }
+                    frontContent += `${item.term ? `<h5 class="font-bold text-stone-800">${item.term}</h5>` : ''}
+                                ${item.title ? `<div class="text-4xl mb-4">${item.title.includes('Typhoon') ? '🌪️' : item.title.includes('United Nations') ? '🌐' : item.title.includes('Malnutrition') ? '🥑' : ''}</div><h4 class="font-bold text-lg mb-2">${item.title}</h4>` : ''}
+                                ${item.content ? `<p class="text-sm text-stone-600">${item.content}</p>` : ''}
+                                ${item.sentence ? `<p class="text-stone-700 leading-relaxed mb-0">${item.sentence}</p>` : ''}`;
+
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            <div class="card-front">
+                                ${frontContent}
+                            </div>
+                            <div class="card-back">
+                                ${item.translation_title ? `<h4 class="font-bold text-lg mb-2 text-stone-800">${item.translation_title}</h4>` : ''}
+                                ${item.translation_content ? `<p class="text-stone-700 leading-relaxed">${item.translation_content}</p>` : ''}
+                                ${item.translation && !item.translation_content ? `<p class="text-stone-700 font-semibold">${item.translation}</p>` : ''}
+                                ${item.example ? `<p class="text-stone-600 mt-2 italic">"${item.example}"</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    if (item.sentence) {
+                        const tip = document.createElement('div');
+                        tip.className = 'tip-content';
+                        card.appendChild(tip);
+                    }
+                    container.appendChild(card);
+                });
+            }
+            
+            function setInitialCardHeights() {
+                const cards = document.querySelectorAll('.card-container');
+                let maxTopicHeight = 0;
+                let maxVocabHeight = 0;
+                
+                cards.forEach(card => {
+                    const front = card.querySelector('.card-front');
+                    const back = card.querySelector('.card-back');
+
+                    front.style.position = 'static';
+                    back.style.position = 'static';
+                    
+                    const frontHeight = front.getBoundingClientRect().height;
+                    const backHeight = back.getBoundingClientRect().height;
+                    
+                    front.style.position = 'absolute';
+                    back.style.position = 'absolute';
+
+                    const maxHeight = Math.max(frontHeight, backHeight);
+                    
+                    if (card.classList.contains('key-topic-card')) {
+                        maxTopicHeight = Math.max(maxTopicHeight, maxHeight);
+                    } else if (card.classList.contains('vocabulary-flashcard')) {
+                        maxVocabHeight = Math.max(maxVocabHeight, maxHeight);
+                    } else {
+                        card.style.height = `${maxHeight}px`;
+                    }
+                });
+
+                // Set all topic cards to the same height
+                if (maxTopicHeight > 0) {
+                    document.querySelectorAll('.key-topic-card').forEach(card => {
+                        card.style.height = `${Math.max(maxTopicHeight, 20 * 16)}px`;
+                    });
                 }
+
+                // Set all vocabulary cards to the same height
+                if (maxVocabHeight > 0) {
+                    document.querySelectorAll('.vocabulary-flashcard').forEach(card => {
+                        card.style.height = `${Math.max(maxVocabHeight, 12 * 16)}px`;
+                    });
+                }
+            }
+
+            createCards(topicData, 'topic-container', 'key-topic-card');
+            createCards(vocabularyData, 'flashcard-container', 'vocabulary-flashcard');
+            createCards(sentenceData, 'sentence-container', 'sentence-card');
+
+            document.querySelectorAll('.card-container').forEach(card => {
+                const inner = card.querySelector('.card-inner');
+                
+                card.addEventListener('click', (e) => {
+                    const highlight = e.target.closest('.sentence-highlight');
+                    const tipContent = card.querySelector('.tip-content');
+                    
+                    if (highlight && tipContent) {
+                        e.stopPropagation();
+                        
+                        const isTipVisible = tipContent.style.display === 'block';
+
+                        document.querySelectorAll('.tip-content').forEach(tip => tip.style.display = 'none');
+                        
+                        document.querySelectorAll('.sentence-card').forEach(c => {
+                             if (c.dataset.originalHeight) {
+                                 c.style.height = c.dataset.originalHeight + 'px';
+                                 delete c.dataset.originalHeight;
+                             }
+                        });
+
+                        if (!isTipVisible) {
+                            const tip = highlight.dataset.tip;
+                            tipContent.textContent = tip;
+                            tipContent.style.display = 'block';
+                            
+                            const topPosition = highlight.offsetTop + highlight.offsetHeight + 10;
+                            
+                            tipContent.style.top = `${topPosition}px`;
+
+                            const tipHeight = tipContent.offsetHeight;
+                            
+                            const originalHeight = card.offsetHeight;
+                            card.dataset.originalHeight = originalHeight;
+                            
+                            card.style.height = `${originalHeight + tipHeight + 10}px`; 
+                        } else {
+                            tipContent.style.display = 'none';
+                        }
+                    } else {
+                        card.classList.toggle('flipped');
+                    }
+                });
             });
 
             const readingContainer = document.getElementById('reading-container');
@@ -258,52 +423,6 @@
                 readingContainer.appendChild(categoryDiv);
             });
 
-
-            const ctx = document.getElementById('weatherEventsChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['2020', '2021', '2022', '2023', '2024'],
-                    datasets: [{
-                        label: 'Extreme Weather Events',
-                        data: [12, 15, 18, 22, 25],
-                        borderColor: '#D97706', // amber-600
-                        backgroundColor: '#FDE68A', // amber-100
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.label}: ${context.raw} Events`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#E7E5E4' // stone-200
-                            }
-                        }
-                    }
-                }
-            });
-
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
             window.addEventListener('scroll', () => {
@@ -321,6 +440,8 @@
                     }
                 });
             });
+            setTimeout(setInitialCardHeights, 100);
+            window.addEventListener('resize', setInitialCardHeights);
         });
     </script>
 </body>
